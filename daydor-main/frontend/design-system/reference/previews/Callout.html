@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../bundle.css">
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+<meta charset="utf-8"><title>Callout — preview</title></head>
+<body>
+<div id="root"></div>
+<script>
+  var D = window.Daydor, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { className: 'dd-stack', style: { maxWidth: 640 } },
+    h(D.Callout, { tone: 'danger', eyebrow: ['Compliance', '10:02 am'], title: 'The PT portal didn\u2019t respond',
+      actions: [h(D.Button, { key: 'r', size: 'sm' }, 'Retry now'), h(D.Button, { key: 'v', size: 'sm', variant: 'ghost' }, 'See what happened')] },
+      h('p', null, 'Nothing was submitted and no money moved. I\u2019ll try again at 11 am; the deadline is 20 Nov, so there\u2019s time.')),
+    h(D.Callout, { tone: 'warning', eyebrow: ['Core HR', 'needs you'], title: 'Two changes are touching Priya\u2019s record at once',
+      actions: [h(D.Button, { key: 'k', size: 'sm', variant: 'primary' }, 'Keep the exit, void the revision'), h(D.Button, { key: 'b', size: 'sm' }, 'Review both')] },
+      h('p', null, 'Her exit started today while a CTC revision is still in flight. Exits take priority, so I\u2019ve paused the revision. If you agree, I\u2019ll void it and note why in the audit log.'))));
+</script>
+</body>
+</html>

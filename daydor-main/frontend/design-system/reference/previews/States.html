@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../bundle.css">
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+
+<meta charset="utf-8">
+<title>States — preview</title>
+<style>
+  .home { display: grid; grid-template-columns: 232px 1fr; height: 820px; background: var(--canvas); }
+  .bar { display: flex; align-items: center; gap: var(--space-3); padding: 0 var(--space-5); border-bottom: 1px solid var(--line); background: var(--canvas); }
+  .wordmark { font-weight: 600; font-size: 17px; letter-spacing: -0.03em; color: var(--brand); }
+  .ws { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--ink-muted); padding: 4px 8px; border-radius: var(--radius-sm); }
+  .ws b { color: var(--ink); font-weight: 500; }
+  .spacer { flex: 1; }
+  .body { display: grid; grid-template-columns: 1fr var(--rail-width); min-height: 0; }
+  .main { display: flex; flex-direction: column; min-height: 0; }
+  .main > .dd-banner { border-bottom: 1px solid var(--line); }
+  .scroll { flex: 1; overflow: hidden; padding: var(--space-6) var(--space-8) 0; -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 32px), transparent); mask-image: linear-gradient(to bottom, #000 calc(100% - 32px), transparent); }
+  .col { max-width: var(--conversation-max); margin: 0 auto; display: flex; flex-direction: column; gap: var(--space-6); }
+  .divider { display: flex; align-items: center; gap: var(--space-3); font-size: 12px; color: var(--ink-muted); margin: var(--space-2) 0 -4px; }
+  .divider::before, .divider::after { content: ""; height: 1px; flex: 1; background: var(--line); }
+  .dock { padding: var(--space-4) var(--space-8) var(--space-5); background: var(--canvas); }
+  .dock .dd-composer-wrap { margin: 0 auto; }
+  .rail { border-left: 1px solid var(--line); background: var(--surface); padding: var(--space-5) var(--space-3); overflow: hidden; display: flex; flex-direction: column; gap: var(--space-6); }
+  .rail h2 { margin: 0 0 6px; padding: 0 var(--space-3); display: flex; justify-content: space-between; font-size: 12px; line-height: 16px; font-weight: 500; color: var(--ink-muted); letter-spacing: 0.01em; }
+  .rail h2 span:last-child { font-variant-numeric: tabular-nums; }
+  .rail .dd-run { padding-left: 2px; }
+  .more { font-size: 13px; color: var(--ink-muted); padding: 6px var(--space-3); }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  var D = window.Daydor, h = React.createElement;
+  var sidebar = h(D.Sidebar, { workspace: 'Acme Labs', user: { name: 'Abhijeet Singh', role: 'Founder' }, items: [
+    { key: 'home', active: true, label: 'Home', icon: 'home', count: 3, countTone: 'warning' },
+    { key: 'people', label: 'People', icon: 'users', count: 14 },
+    { key: 'hiring', label: 'Hiring', icon: 'briefcase', count: 2 },
+    { key: 'leave', label: 'Leave & attendance', icon: 'calendar' },
+    { key: 'payroll', label: 'Payroll', icon: 'rupee' },
+    { key: 'expenses', label: 'Expenses', icon: 'receipt' },
+    { key: 'compliance', label: 'Compliance', icon: 'landmark' },
+    { key: 'docs', label: 'Documents', icon: 'folder' }
+  ] });
+
+  var conversation = h('div', { className: 'col' },
+    h(D.Message, { from: 'user', time: '10:20 am' }, 'Why didn\u2019t the PT challan go through?'),
+    h(D.Message, { domain: 'Compliance', time: '10:20 am' },
+      h('p', null, 'The Karnataka PT portal timed out twice this morning. Nothing was submitted and no money moved.'),
+      h(D.Callout, { tone: 'danger', title: 'PT challan for October — not filed yet', actions: [h(D.Button, { key: 'r', size: 'sm' }, 'Retry now'), h(D.Button, { key: 'v', size: 'sm', variant: 'ghost' }, 'See what happened')] },
+        h('p', null, 'I\u2019ll retry at 11 am. The deadline is 20 Nov.'))),
+    h(D.Message, { domain: 'Core HR', time: '10:24 am' },
+      h('p', null, 'One more thing needs a call from you.'),
+      h(D.Callout, { tone: 'warning', title: 'Two changes are touching Priya\u2019s record at once', actions: [h(D.Button, { key: 'k', size: 'sm', variant: 'primary' }, 'Keep the exit, void the revision'), h(D.Button, { key: 'b', size: 'sm' }, 'Review both')] },
+        h('p', null, 'Her exit started today while a CTC revision is still in flight. Exits take priority, so I\u2019ve paused the revision.'))));
+
+  var main = h('div', { className: 'main' },
+    h(D.Banner, { tone: 'paused', title: 'Labour inspection mode is on.', action: { label: 'End inspection mode' } }, 'Changes to records and payroll are paused. Reading and reports continue.'),
+    h('div', { className: 'scroll' }, conversation),
+    h('div', { className: 'dock' }, h(D.Composer, { scope: 'All of HR', footnote: 'Daydor asks before anything irreversible — money, filings or access.' })));
+
+  var rail = h('aside', { className: 'rail', 'aria-label': 'Decisions and activity' },
+    h('section', null,
+      h('h2', null, h('span', null, 'Needs you'), h('span', null, '2')),
+      h(D.DecisionCard, { compact: true, selected: true, domain: 'Payroll', title: 'Release October salaries', writeClass: 'irreversible', deadline: { daysLeft: 0, date: '13 Oct' } }),
+      h(D.DecisionCard, { compact: true, domain: 'Core HR', title: 'Keep Priya\u2019s exit, void her revision', deadline: { daysLeft: 1 } })),
+    h('section', null,
+      h('h2', null, h('span', null, 'Stuck'), h('span', null, '1')),
+      h(D.DecisionCard, { domain: 'Leave', title: 'Approve Arjun\u2019s leave encashment', writeClass: 'irreversible', escalation: 'Delegated to Rohit 3 days ago — no response', figures: [{ label: 'Encashment', value: 18400 }], approveLabel: 'Take it back', reviewLabel: 'Remind Rohit', onDelegate: false, deadline: { daysLeft: -1, date: '12 Oct' } })),
+    h('section', null,
+      h('h2', null, h('span', null, 'Running now'), h('span', null, '0')),
+      h(D.EmptyState, { size: 'sm', icon: 'pause', title: 'Paused for the inspection' }, 'Read-only work continues; changes resume when you end inspection mode.')));
+
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { className: 'home' }, sidebar, h('div', { className: 'body' }, main, rail)));
+</script>
+</body>
+</html>

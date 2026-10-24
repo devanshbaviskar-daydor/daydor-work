@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../bundle.css">
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+
+<meta charset="utf-8">
+<title>Phone — preview</title>
+<style>
+  .stage { display: flex; gap: 48px; justify-content: center; padding: 32px 24px; background: var(--canvas); }
+  .phone { position: relative; width: 375px; height: 692px; border: 1px solid var(--line); border-radius: 28px; overflow: hidden; background: var(--canvas); box-shadow: var(--shadow-md); display: flex; flex-direction: column; color: var(--ink); }
+  .cap { text-align: center; font-size: 12px; color: var(--ink-muted); margin-top: 12px; }
+  .top { display: flex; align-items: center; gap: 10px; height: 52px; padding: 0 16px; border-bottom: 1px solid var(--line); }
+  .top b { font-weight: 600; font-size: 15px; letter-spacing: -0.02em; }
+  .wm { font-weight: 600; font-size: 16px; letter-spacing: -0.03em; color: var(--brand); }
+  .client-logo { width: 28px; height: 28px; border-radius: var(--radius-md); background: var(--action); color: var(--on-action); display: inline-flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px; }
+  .feed { flex: 1; overflow: hidden; padding: 20px 16px 0; display: flex; flex-direction: column; gap: 20px; }
+  .dock { padding: 12px 16px 16px; }
+  .dock .dd-composer { padding: 10px 10px 6px 14px; }
+  .phone .dd-msg-body, .phone .dd-msg-bubble { font-size: 15px; }
+  .phone .dd-figures { gap: 12px 24px; }
+  .phone .dd-decision-actions { flex-wrap: wrap; }
+  .sheet-wrap { position: absolute; inset: 0; }
+  .phone .dd-overlay { align-items: flex-end; padding: 0; }
+  .phone .dd-dialog { max-width: none; border-radius: var(--radius-xl) var(--radius-xl) 0 0; border-bottom: 0; }
+  .phone .dd-dialog-foot { flex-direction: column-reverse; }
+  .phone .dd-dialog-foot .dd-btn { width: 100%; height: var(--control-lg); font-size: 14px; }
+  .reauth { display: flex; align-items: center; gap: 8px; margin-top: 12px; font-size: 13px; color: var(--ink-muted); }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  var D = window.Daydor, h = React.createElement;
+
+  var founder = h('div', null,
+    h('div', { className: 'phone' },
+      h('div', { className: 'top' }, h('span', { className: 'wm' }, 'daydor'), h('span', { style: { flex: 1 } }), h(D.Avatar, { kind: 'person', name: 'Abhijeet Singh', size: 28 })),
+      h('div', { className: 'feed' },
+        h(D.DecisionCard, {
+          domain: 'Compliance', writeClass: 'irreversible', title: 'File the October PF return',
+          figures: [{ label: 'PF for 14 members', value: 50400 }],
+          deadline: { daysLeft: 2, date: '15 Nov' }, approveLabel: 'Approve & file', reviewLabel: 'See the return'
+        })),
+      h('div', { className: 'sheet-wrap' },
+        h(D.Dialog, { inline: true, title: 'File the October PF return?', onClose: function () {},
+          description: 'Daydor will upload the ECR for 14 members to EPFO and generate the challan for ₹50,400.',
+          irreversible: 'Once EPFO accepts it, this return can’t be withdrawn.',
+          footer: [h(D.Button, { key: 'n', variant: 'ghost' }, 'Not yet'), h(D.Button, { key: 'y', variant: 'primary', icon: 'lock' }, 'Confirm with Face ID')] },
+          null))),
+    h('div', { className: 'cap' }, 'Founder · irreversible approval with device re-auth'));
+
+  var employee = h('div', null,
+    h('div', { 'data-theme': 'light', style: { borderRadius: 28 } }, h('div', { className: 'phone', 'data-theme': 'client' },
+      h('div', { className: 'top' }, h('span', { className: 'client-logo' }, 'AL'), h('b', null, 'Acme Labs'), h('span', { style: { flex: 1 } }), h(D.Avatar, { kind: 'person', name: 'Priya Raghavan', size: 28 })),
+      h('div', { className: 'feed' },
+        h(D.Message, { from: 'user', time: '6:10 pm' }, 'Why is my October pay higher?'),
+        h(D.Message, { time: 'just now' },
+          h('p', null, 'Your revision to ₹1,25,000 a month took effect on 1 Oct, so your take-home went up by ', h('strong', null, '₹14,300'), '. Your payslip will be ready on 31 Oct.')),
+        h(D.Message, { from: 'user', time: '6:11 pm' }, 'What does Arjun earn?'),
+        h(D.Message, { time: 'just now' },
+          h('p', null, 'I can only help with your own pay, leave and documents. For anything about a colleague, please ask your HR contact.'))),
+      h('div', { className: 'dock' }, h(D.Composer, { placeholder: 'Ask about your pay, leave or documents…' })))),
+    h('div', { className: 'cap' }, 'Employee · client-branded, answers only about themselves'));
+
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { className: 'stage' }, founder, employee));
+</script>
+</body>
+</html>

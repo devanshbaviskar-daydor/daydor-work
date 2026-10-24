@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../bundle.css">
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+<meta charset="utf-8"><title>Receipt — preview</title></head>
+<body>
+<div id="root"></div>
+<script>
+  var D = window.Daydor, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { className: 'dd-stack', style: { maxWidth: 640 } },
+    h(D.Receipt, { defaultOpen: true, duration: '4 min', writeClass: 'guarded', steps: [
+      { kind: 'read', text: 'Read October attendance and approved leave for 14 people', domain: 'Time & Leave', worker: 'attendance-closer', time: '9:02 am' },
+      { kind: 'read', text: 'Computed gross, PF, ESI, PT and TDS per employee', domain: 'Payroll', worker: 'wage-calculator', time: '9:04 am' },
+      { kind: 'write', text: 'Drafted the payroll register (draft — editable until you approve)', domain: 'Payroll', worker: 'register-writer', time: '9:05 am' },
+      { kind: 'read', text: 'Compared with the last 3 months — 2 people moved more than 15%', domain: 'Payroll', worker: 'variance-checker', time: '9:05 am' },
+      { kind: 'gate', text: 'Stopped for your approval before disbursal', domain: 'Payroll', time: '9:06 am' }
+    ],
+      sources: [{ kind: 'data', label: 'Attendance · Oct 2026' }, { kind: 'doc', label: 'Payroll register (draft)' }, { kind: 'law', label: 'Code on Wages, 2019' }],
+      auditId: 'run_8f2c41' })));
+</script>
+</body>
+</html>

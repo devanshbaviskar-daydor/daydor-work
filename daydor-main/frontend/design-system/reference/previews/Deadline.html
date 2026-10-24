@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../bundle.css">
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+<meta charset="utf-8"><title>Deadline — preview</title></head>
+<body>
+<div id="root"></div>
+<script>
+  var D = window.Daydor, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { className: 'dd-row', style: { gap: 20 } },
+    h(D.Deadline, { daysLeft: 9, date: '20 Nov' }), h(D.Deadline, { daysLeft: 2, date: '15 Nov' }), h(D.Deadline, { daysLeft: 0 }), h(D.Deadline, { daysLeft: -3, date: '10 Nov' })));
+</script>
+</body>
+</html>

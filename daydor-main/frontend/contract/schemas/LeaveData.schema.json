@@ -1,0 +1,272 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "period": {
+      "type": "string"
+    },
+    "policies": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/LeavePolicy"
+      },
+      "description": "The company's leave policies; the request form picks one."
+    },
+    "stats": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/LeaveStat"
+      }
+    },
+    "requests": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Decision"
+      }
+    },
+    "balances": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/LeaveBalance"
+      }
+    },
+    "attendance": {
+      "type": "object",
+      "properties": {
+        "days": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AttendanceDay"
+          }
+        },
+        "people": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AttendancePerson"
+          }
+        },
+        "moreCount": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "days",
+        "people"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "period",
+    "stats",
+    "requests",
+    "balances",
+    "attendance"
+  ],
+  "additionalProperties": false,
+  "definitions": {
+    "LeavePolicy": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "leaveType": {
+          "type": "string"
+        },
+        "daysPerMonth": {
+          "type": "number",
+          "description": "Days earned each month, when the policy accrues monthly."
+        },
+        "carryForwardCap": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "leaveType",
+        "carryForwardCap"
+      ],
+      "additionalProperties": false
+    },
+    "LeaveStat": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        },
+        "delta": {
+          "type": "string"
+        },
+        "deltaTone": {
+          "type": "string",
+          "enum": [
+            "warning",
+            "success"
+          ]
+        }
+      },
+      "required": [
+        "label",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "Decision": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "domain": {
+          "type": "string"
+        },
+        "gate": {
+          "type": "string"
+        },
+        "writeClass": {
+          "$ref": "#/definitions/WriteLevel"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "figures": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DecisionFigure"
+          }
+        },
+        "why": {
+          "type": "string"
+        },
+        "deadline": {
+          "$ref": "#/definitions/DecisionDeadline"
+        },
+        "approveLabel": {
+          "type": "string"
+        },
+        "reviewLabel": {
+          "type": "string"
+        },
+        "escalation": {
+          "type": "string"
+        },
+        "canDecide": {
+          "type": "boolean",
+          "description": "False when the signed-in role may not decide this (or raised it themselves); `cannotDecideReason` says why. Absent means the screen cannot tell."
+        },
+        "cannotDecideReason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "writeClass"
+      ],
+      "additionalProperties": false
+    },
+    "WriteLevel": {
+      "type": "string",
+      "enum": [
+        "read",
+        "guarded",
+        "irreversible"
+      ]
+    },
+    "DecisionFigure": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "value": {
+          "type": [
+            "number",
+            "string"
+          ]
+        },
+        "note": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "label",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "DecisionDeadline": {
+      "type": "object",
+      "properties": {
+        "daysLeft": {
+          "type": "number"
+        },
+        "date": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "daysLeft"
+      ],
+      "additionalProperties": false
+    },
+    "LeaveBalance": {
+      "type": "object",
+      "properties": {
+        "leaveType": {
+          "type": "string"
+        },
+        "balanceDays": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "leaveType",
+        "balanceDays"
+      ],
+      "additionalProperties": false
+    },
+    "AttendanceDay": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "sub": {
+          "type": "string"
+        },
+        "today": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "label"
+      ],
+      "additionalProperties": false
+    },
+    "AttendancePerson": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "marks": {
+          "type": "string",
+          "description": "One letter per day: P present, A absent, H half day, L on leave, O weekly off/holiday, - upcoming."
+        }
+      },
+      "required": [
+        "name",
+        "marks"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../bundle.css">
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+
+<meta charset="utf-8">
+<title>ExpenseClaim — preview</title>
+<style>
+  .stage { display: flex; gap: 32px; justify-content: center; padding: 28px 24px; background: var(--canvas); }
+  .phone { position: relative; width: 360px; height: 700px; border: 1px solid var(--line); border-radius: 28px; overflow: hidden; background: var(--canvas); box-shadow: var(--shadow-md); display: flex; flex-direction: column; color: var(--ink); }
+  .cap { text-align: center; font-size: 12px; color: var(--ink-muted); margin-top: 12px; max-width: 360px; }
+  .top { display: flex; align-items: center; gap: 10px; height: 52px; padding: 0 16px; border-bottom: 1px solid var(--line); flex: none; }
+  .top b { font-weight: 600; font-size: 15px; letter-spacing: -0.02em; }
+  .top .back { color: var(--ink-muted); display: inline-flex; transform: rotate(180deg); }
+  .client-logo { width: 28px; height: 28px; border-radius: var(--radius-md); background: var(--action); color: var(--on-action); display: inline-flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px; }
+  .feed { flex: 1; overflow: hidden; padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 14px 16px; }
+  .card-h { display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 500; color: var(--ink-muted); margin-bottom: 8px; }
+  .big { font-size: 24px; line-height: 30px; font-weight: 500; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+  .small { font-size: 12px; line-height: 17px; color: var(--ink-muted); }
+  .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+  .sec { font-size: 12px; font-weight: 500; color: var(--ink-muted); margin: 6px 0 -6px; }
+  .phone .dd-stats { gap: 12px 24px; }
+  .phone .dd-stat dd { font-size: 20px; line-height: 26px; }
+  .phone .dd-fact { padding: 8px 0; font-size: 13px; }
+  .phone .dd-msg-body, .phone .dd-msg-bubble { font-size: 14px; line-height: 22px; }
+
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  var D = window.Daydor, h = React.createElement;
+  function receiptPhoto(lines, rotate) {
+    return h('div', { 'data-theme': 'light', style: { width: '74%', transform: 'rotate(' + (rotate || -2) + 'deg)', background: 'var(--surface)', color: 'var(--ink)', padding: '14px 12px 18px', fontFamily: 'var(--font-mono)', fontSize: 9.5, lineHeight: '13px', boxShadow: 'var(--shadow-lg)' } },
+      lines.map(function (l, i) { return h('div', { key: i, style: { display: 'flex', justifyContent: l[1] != null ? 'space-between' : 'center', fontWeight: l[2] ? 600 : 400, marginTop: l[3] ? 6 : 0 } }, h('span', null, l[0]), l[1] != null ? h('span', null, l[1]) : null); }));
+  }
+  var BLUE_TOKAI = [['BLUE TOKAI COFFEE ROASTERS', null, true], ['100 Ft Rd, Indiranagar'], ['GSTIN 29AAJCB12?4F1Z5'], ['14/10/2026  13:42', null, false, true], ['Cappuccino x2', '480.00', false, true], ['Cold brew x2', '520.00'], ['Croissant x1', '124.00'], ['CGST 2.5%', '28.10'], ['SGST 2.5%', '27.90'], ['TOTAL', '1,180.00', true, true], ['UPI · paid'], ['Thank you!', null, false, true]];
+  var TOIT = [['TOIT BREWPUB', null, true], ['Indiranagar, Bengaluru'], ['GSTIN 29AAFCT8812K1Z2'], ['09/10/2026  21:58', null, false, true], ['Food', '5,240.00', false, true], ['Beverages', '2,240.00'], ['CGST 2.5%', '187.00'], ['SGST 2.5%', '187.00'], ['Service chg', '6.00'], ['TOTAL', '7,860.00', true, true], ['Card ···· 2201']];
+
+  function phone(caption, top, body, tabs, theme) {
+    /* client themes are light-based: pin light underneath so a dark app theme can't mix with a light client colour */
+    return h('div', null, h('div', { 'data-theme': 'light', style: { borderRadius: 28 } }, h('div', { className: 'phone', 'data-theme': theme || 'client' }, top, h('div', { className: 'feed' }, body), tabs || null)), h('div', { className: 'cap' }, caption));
+  }
+  function brandTop(title) { return h('div', { className: 'top' }, h('span', { className: 'client-logo' }, 'AL'), h('b', null, title || 'Acme Labs'), h('span', { style: { flex: 1 } }), h(D.Avatar, { kind: 'person', name: 'Priya Raghavan', size: 28 })); }
+  function backTop(title) { return h('div', { className: 'top' }, h('span', { className: 'back' }, h(D.Icon, { name: 'chevronRight', size: 18 })), h('b', null, title)); }
+  function tabs(active) { return h(D.TabBar, { items: [{ label: 'Home', icon: 'home' }, { label: 'Pay', icon: 'rupee' }, { label: 'Ask', icon: 'message', primary: true }, { label: 'Leave', icon: 'calendar' }, { label: 'Me', icon: 'user' }].map(function (t) { return Object.assign(t, { active: t.label === active }); }) }); }
+
+  var capture = phone('1 · Take a photo of the receipt', backTop('Claim an expense'), [
+    h('figure', { key: 'f', className: 'dd-receipt-photo', style: { margin: 0, aspectRatio: '3 / 4' } }, receiptPhoto(BLUE_TOKAI, -3)),
+    h('p', { key: 'p', className: 'small', style: { textAlign: 'center', margin: 0 } }, 'Daydor reads the vendor, date and amount — you check them next.'),
+    h('div', { key: 'b', style: { display: 'flex', gap: 8 } }, h(D.Button, { variant: 'secondary', icon: 'camera', fullWidth: true }, 'Retake'), h(D.Button, { variant: 'primary', fullWidth: true }, 'Use this photo'))
+  ]);
+  var confirm = phone('2 · Check what was read, add why', backTop('Claim an expense'), [
+    h(D.ReceiptReview, { key: 'r', layout: 'stacked', photo: receiptPhoto(BLUE_TOKAI, -3), fields: [
+      { label: 'Vendor', value: 'Blue Tokai Coffee', confirmed: true }, { label: 'Date', value: '14 Oct 2026', confirmed: true },
+      { label: 'Amount', value: 1180 }, { label: 'GSTIN', value: '29AAJCB12?4F1Z5', confidence: 'low', flag: 'Unclear' }] }),
+    h(D.Select, { key: 'c', label: 'Category', options: ['Meals', 'Travel', 'Client entertainment', 'Office supplies', 'Professional development'], defaultValue: 'Meals' }),
+    h(D.Input, { key: 'w', label: 'Why was this for work?', defaultValue: 'Coffee with candidate Ishaan after his interview' }),
+    h(D.Button, { key: 's', variant: 'primary', fullWidth: true }, 'Submit ₹1,180 claim')
+  ]);
+  var track = phone('3 · Tracked until it\u2019s paid with salary', brandTop(), [
+    h(D.Message, { key: 'm', time: 'just now' }, h('p', null, 'Sent to Rohit. Once he approves, ', h('strong', null, '₹1,180'), ' is added to your October salary — no separate payout.')),
+    h('div', { key: 's', className: 'card' }, h('div', { className: 'card-h' }, h('span', null, 'Blue Tokai · Meals'), h(D.Badge, { status: 'manager-review' })),
+      h(D.Stepper, { orientation: 'vertical', steps: [
+        { label: 'Submitted', state: 'done', meta: '14 Oct, 1:46 pm' },
+        { label: 'With Rohit, your manager', state: 'current', meta: 'Goes to Abhijeet if not decided by Fri' },
+        { label: 'Added to October payroll', state: 'upcoming' },
+        { label: 'Paid with salary', state: 'upcoming', meta: '31 Oct' }] }))
+  ], tabs('Pay'));
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { className: 'stage' }, capture, confirm, track));
+</script>
+</body>
+</html>

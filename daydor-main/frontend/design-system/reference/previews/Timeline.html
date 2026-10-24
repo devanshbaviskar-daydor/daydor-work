@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../bundle.css">
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+<meta charset="utf-8"><title>Timeline — preview</title></head>
+<body>
+<div id="root"></div>
+<script>
+  var D = window.Daydor, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { className: 'dd-stack', style: { maxWidth: 560 } },
+    h(D.Timeline, { items: [
+      { text: 'Applied CTC revision to ₹1,25,000 / month', domain: 'Payroll', time: '1 Oct', writeClass: 'guarded' },
+      { by: 'person', name: 'Abhijeet Singh', text: 'Approved the revision', time: '28 Sep' },
+      { text: 'Approved 2 days of casual leave within policy', domain: 'Leave', time: '22 Sep', writeClass: 'guarded' },
+      { text: 'Updated bank account after Priya confirmed it', domain: 'Core HR', time: '4 Sep', writeClass: 'irreversible' }
+    ] })));
+</script>
+</body>
+</html>

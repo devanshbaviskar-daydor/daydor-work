@@ -1,0 +1,270 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "categoryRules": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ExpenseCategoryRule"
+      }
+    },
+    "claims": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ExpenseClaim"
+      }
+    },
+    "reimbursementBatches": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ReimbursementBatch"
+      }
+    }
+  },
+  "required": [
+    "categoryRules",
+    "claims",
+    "reimbursementBatches"
+  ],
+  "additionalProperties": false,
+  "definitions": {
+    "ExpenseCategoryRule": {
+      "type": "object",
+      "properties": {
+        "categoryCode": {
+          "$ref": "#/definitions/ExpenseCategoryCode"
+        },
+        "label": {
+          "type": "string"
+        },
+        "requiresReceiptAbove": {
+          "type": "number"
+        },
+        "managerApprovalThreshold": {
+          "type": "number"
+        },
+        "itcEligible": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "categoryCode",
+        "label",
+        "requiresReceiptAbove",
+        "managerApprovalThreshold",
+        "itcEligible"
+      ],
+      "additionalProperties": false,
+      "description": "daydor's own reference table (Product Spec §7.1, §7.3) — Daydor-Build's `expense.category` is a bare text field with no backing rule table, so this is daydor's load-bearing addition, not a port of anything upstream."
+    },
+    "ExpenseCategoryCode": {
+      "type": "string",
+      "enum": [
+        "meals",
+        "travel",
+        "client_entertainment",
+        "office_supplies",
+        "professional_development"
+      ]
+    },
+    "ExpenseClaim": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "employeeId": {
+          "type": "string"
+        },
+        "employeeName": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "number"
+        },
+        "categoryCode": {
+          "$ref": "#/definitions/ExpenseCategoryCode"
+        },
+        "submittedAt": {
+          "type": "string"
+        },
+        "receiptDocumentId": {
+          "type": "string"
+        },
+        "extractedFields": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExtractedReceiptField"
+          }
+        },
+        "vendor": {
+          "type": "string"
+        },
+        "receiptDate": {
+          "type": "string"
+        },
+        "note": {
+          "type": "string"
+        },
+        "policyFlags": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExpensePolicyFlag"
+          }
+        },
+        "approvalRequest": {
+          "$ref": "#/definitions/ExpenseApprovalRequest"
+        },
+        "reimbursedAt": {
+          "type": "string",
+          "description": "Set only in lockstep with a payroll run's disbursed_at (captain decision, Product Spec §7.1): reimbursement folds into Payroll's existing salary_disbursement rather than running as a separate payout."
+        },
+        "reimbursementBatchId": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "employeeId",
+        "employeeName",
+        "amount",
+        "categoryCode",
+        "submittedAt",
+        "policyFlags"
+      ],
+      "additionalProperties": false,
+      "description": "Base entity mirrors Daydor-Build's `expense` table (employee_id, amount, category, receipt_document_id, policy_flags, approval_request_id, reimbursed_at) — kept as a clean, compatible subset."
+    },
+    "ExtractedReceiptField": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "value": {
+          "type": [
+            "number",
+            "string"
+          ]
+        },
+        "confidence": {
+          "type": "string",
+          "enum": [
+            "high",
+            "low"
+          ]
+        },
+        "flag": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "label",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "ExpensePolicyFlag": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "$ref": "#/definitions/ExpensePolicyFlagKind"
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "message"
+      ],
+      "additionalProperties": false,
+      "description": "Open-ended jsonb bag on the `expense` row (Daydor-Build schema), not fixed boolean columns — `policy_threshold_validator` output is informational and never blocks submission."
+    },
+    "ExpensePolicyFlagKind": {
+      "type": "string",
+      "enum": [
+        "missing_receipt",
+        "needs_founder_approval"
+      ]
+    },
+    "ExpenseApprovalRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "stage": {
+          "$ref": "#/definitions/ExpenseApprovalStage"
+        },
+        "approverName": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "pending",
+            "approved",
+            "declined"
+          ]
+        },
+        "canDecide": {
+          "type": "boolean",
+          "description": "Only on a pending request: whether the signed-in role may decide it, and why not."
+        },
+        "cannotDecideReason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "stage",
+        "approverName",
+        "status"
+      ],
+      "additionalProperties": false
+    },
+    "ExpenseApprovalStage": {
+      "type": "string",
+      "enum": [
+        "manager",
+        "founder"
+      ]
+    },
+    "ReimbursementBatch": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "payrollRunLabel": {
+          "type": "string"
+        },
+        "disbursedAt": {
+          "type": "string"
+        },
+        "scheduledDisbursementDate": {
+          "type": "string"
+        },
+        "claimIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "totalAmount": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "payrollRunLabel",
+        "scheduledDisbursementDate",
+        "claimIds",
+        "totalAmount"
+      ],
+      "additionalProperties": false,
+      "description": "A payroll run's salary_disbursement batch that a claim's reimbursement rides on."
+    }
+  }
+}

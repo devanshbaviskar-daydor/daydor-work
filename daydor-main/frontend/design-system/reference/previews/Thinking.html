@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../bundle.css">
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+<meta charset="utf-8"><title>Thinking — preview</title></head>
+<body>
+<div id="root"></div>
+<script>
+  var D = window.Daydor, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { className: 'dd-stack', style: { maxWidth: 680 } },
+    h(D.Thinking, { label: 'Payroll is computing October\u2026', steps: ['Reading attendance and leave', 'Computing PF, ESI and PT for 14 people'] })));
+</script>
+</body>
+</html>

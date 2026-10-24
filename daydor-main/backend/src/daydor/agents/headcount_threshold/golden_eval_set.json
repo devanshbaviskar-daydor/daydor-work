@@ -1,0 +1,71 @@
+{
+  "worker": "obligation_checklist_generator",
+  "description": "DRAFT golden evaluation set, first-pass alongside prompt.md. Small, representative cases only — expand and refine once the real LangGraph build and prompt are reviewed. Revisit whenever prompt.md changes.",
+  "cases": [
+    {
+      "id": "epf_threshold_single_scheme",
+      "input": {
+        "tenant_headcount": 20,
+        "threshold_crossed": "epf_mandatory_registration",
+        "crossing_date": "2026-03-01",
+        "schemes": [
+          {
+            "scheme": "EPF",
+            "registration_deadline_days": 30
+          }
+        ]
+      },
+      "expected_output": {
+        "checklist_contains": [
+          "EPF establishment code registration"
+        ],
+        "all_items_have_scheme": "EPF",
+        "max_statutory_deadline_days": 30
+      }
+    },
+    {
+      "id": "esi_and_pt_simultaneous_crossing",
+      "input": {
+        "tenant_headcount": 10,
+        "threshold_crossed": "esi_and_pt_mandatory_registration",
+        "crossing_date": "2026-04-15",
+        "schemes": [
+          {
+            "scheme": "ESI",
+            "registration_deadline_days": 15
+          },
+          {
+            "scheme": "PT",
+            "registration_deadline_days": 30
+          }
+        ]
+      },
+      "expected_output": {
+        "checklist_contains": [
+          "ESI registration",
+          "Professional Tax registration"
+        ],
+        "no_items_for_schemes_not_in_input": true
+      }
+    },
+    {
+      "id": "no_hard_deadline_review_step",
+      "input": {
+        "tenant_headcount": 20,
+        "threshold_crossed": "epf_mandatory_registration",
+        "crossing_date": "2026-03-01",
+        "schemes": [
+          {
+            "scheme": "EPF",
+            "registration_deadline_days": 30
+          }
+        ],
+        "include_internal_review_step": true
+      },
+      "expected_output": {
+        "has_item_with_null_deadline": true,
+        "does_not_claim_completion": true
+      }
+    }
+  ]
+}

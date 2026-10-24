@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../bundle.css">
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+
+<meta charset="utf-8">
+<title>Expenses — preview</title>
+<style>
+  .shell { display: grid; grid-template-columns: 232px 1fr; height: 900px; background: var(--canvas); }
+  .page { overflow: hidden; padding: var(--space-8) var(--space-12); }
+  .page-inner { max-width: 1080px; margin: 0 auto; display: flex; flex-direction: column; gap: var(--space-6); }
+  .panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); }
+  .panel-pad { padding: var(--space-5) var(--space-6); }
+  .panel-title { margin: 0 0 var(--space-4); font-size: 15px; line-height: 22px; font-weight: 600; }
+  .grid2 { display: grid; grid-template-columns: 1.3fr 1fr; gap: var(--space-6); align-items: start; }
+  .col { display: flex; flex-direction: column; gap: var(--space-3); min-width: 0; }
+  .sec-label { font-size: 12px; font-weight: 500; color: var(--ink-muted); margin: 0 0 var(--space-1); }
+  .muted { font-size: 12px; line-height: 17px; color: var(--ink-muted); margin: 0; }
+  .page .dd-table td { height: 52px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  var D = window.Daydor, h = React.createElement;
+  function receiptPhoto(lines, rotate) {
+    return h('div', { 'data-theme': 'light', style: { width: '74%', transform: 'rotate(' + (rotate || -2) + 'deg)', background: 'var(--surface)', color: 'var(--ink)', padding: '14px 12px 18px', fontFamily: 'var(--font-mono)', fontSize: 9.5, lineHeight: '13px', boxShadow: 'var(--shadow-lg)' } },
+      lines.map(function (l, i) { return h('div', { key: i, style: { display: 'flex', justifyContent: l[1] != null ? 'space-between' : 'center', fontWeight: l[2] ? 600 : 400, marginTop: l[3] ? 6 : 0 } }, h('span', null, l[0]), l[1] != null ? h('span', null, l[1]) : null); }));
+  }
+  var BLUE_TOKAI = [['BLUE TOKAI COFFEE ROASTERS', null, true], ['100 Ft Rd, Indiranagar'], ['GSTIN 29AAJCB12?4F1Z5'], ['14/10/2026  13:42', null, false, true], ['Cappuccino x2', '480.00', false, true], ['Cold brew x2', '520.00'], ['Croissant x1', '124.00'], ['CGST 2.5%', '28.10'], ['SGST 2.5%', '27.90'], ['TOTAL', '1,180.00', true, true], ['UPI · paid'], ['Thank you!', null, false, true]];
+  var TOIT = [['TOIT BREWPUB', null, true], ['Indiranagar, Bengaluru'], ['GSTIN 29AAFCT8812K1Z2'], ['09/10/2026  21:58', null, false, true], ['Food', '5,240.00', false, true], ['Beverages', '2,240.00'], ['CGST 2.5%', '187.00'], ['SGST 2.5%', '187.00'], ['Service chg', '6.00'], ['TOTAL', '7,860.00', true, true], ['Card ···· 2201']];
+
+  var nav = [
+    { key: 'home', label: 'Home', icon: 'home', count: 3, countTone: 'warning' },
+    { key: 'people', label: 'People', icon: 'users', count: 14 },
+    { key: 'hiring', label: 'Hiring', icon: 'briefcase', count: 2 },
+    { key: 'leave', label: 'Leave & attendance', icon: 'calendar' },
+    { key: 'payroll', label: 'Payroll', icon: 'rupee' },
+    { key: 'expenses', label: 'Expenses', icon: 'receipt' },
+    { key: 'compliance', label: 'Compliance', icon: 'landmark' },
+    { key: 'docs', label: 'Documents', icon: 'folder' }
+  ].map(function (n) { return Object.assign(n, { active: n.key === 'expenses' }); });
+  var footerItems = [{ key: 'settings', label: 'Settings', icon: 'settings', active: 'expenses' === 'settings' }];
+  var sidebar = h(D.Sidebar, { workspace: 'Acme Labs', user: { name: 'Abhijeet Singh', role: 'Founder' }, items: nav, footerItems: footerItems });
+
+  var rows = [
+    { id: 1, name: 'Sneha Kulkarni', cat: 'Client entertainment', amt: 7860, st: 'needs-you' },
+    { id: 2, name: 'Rohit Verma', cat: 'Travel', amt: 6450, st: 'needs-you' },
+    { id: 3, name: 'Priya Raghavan', cat: 'Meals', amt: 1180, st: 'manager-review' },
+    { id: 4, name: 'Kabir Sethi', cat: 'Office supplies', amt: 2340, st: 'approved' },
+    { id: 5, name: 'Meera Iyer', cat: 'Professional development', amt: 9999, st: 'approved' }
+  ];
+  var content = [
+    h(D.PageHeader, { key: 'h', eyebrow: ['Expenses', 'October'], title: 'Expenses', description: 'Managers approve claims up to ₹5,000; anything above comes to you. Approved claims are paid with the next salary — no separate payout.',
+      actions: [h(D.Button, { key: 'p', icon: 'file' }, 'Expense policy')] }),
+    h('div', { key: 'st', className: 'panel panel-pad' }, h(D.StatRow, { items: [
+      { label: 'With managers', value: 6240, delta: '5 claims' }, { label: 'Needs you', value: '2', delta: '₹14,310 · both above ₹5,000', deltaTone: 'warning' },
+      { label: 'In October\u2019s salary', value: 38450, delta: '11 claims · paid 31 Oct' }] })),
+    h('div', { key: 'g', className: 'grid2' },
+      h('div', { className: 'col' },
+        h('p', { className: 'sec-label' }, 'Needs you'),
+        h(D.DecisionCard, { domain: 'Expenses', gate: 'Above ₹5,000', writeClass: 'guarded', title: 'Approve Sneha\u2019s client dinner — ₹7,860',
+          summary: 'Dinner with Zeta Health\u2019s team after the pilot review. Rohit (her manager) has already said yes.',
+          why: 'Expense policy: client entertainment above ₹5,000 needs a founder.', approveLabel: 'Approve ₹7,860', reviewLabel: 'Ask Sneha', note: 'Rides on October salary if approved by 28 Oct' },
+          h(D.ReceiptReview, { photo: receiptPhoto(TOIT, 2), heading: 'Read from the receipt · confirmed by Sneha', fields: [
+            { label: 'Vendor', value: 'Toit Brewpub', confirmed: true }, { label: 'Date', value: '9 Oct 2026', confirmed: true },
+            { label: 'Amount', value: 7860, confirmed: true }, { label: 'Category', value: 'Client entertainment', confirmed: true }] }))),
+      h('div', { className: 'col' },
+        h('p', { className: 'sec-label' }, 'October batch'),
+        h(D.Table, { caption: 'October reimbursement batch', density: 'compact', rows: rows, columns: [
+          { key: 'name', header: 'Employee', render: function (r) { return h('div', null, h('div', null, r.name), h('div', { style: { fontSize: 12, color: 'var(--ink-muted)' } }, r.cat)); } },
+          { key: 'amt', header: 'Amount', numeric: true, render: function (r) { return h(D.Amount, { value: r.amt }); } },
+          { key: 'st', header: 'Status', render: function (r) { return h(D.Badge, { status: r.st }); } }] }),
+        h('p', { className: 'muted' }, 'Approved claims are added to each person\u2019s October salary as a non-taxable reimbursement line.')))
+  ];
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { className: 'shell' }, sidebar, h('main', { className: 'page' }, h('div', { className: 'page-inner' }, content))));
+</script>
+</body>
+</html>

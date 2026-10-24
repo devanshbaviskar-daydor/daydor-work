@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../bundle.css">
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+<meta charset="utf-8"><title>EmptyState — preview</title></head>
+<body>
+<div id="root"></div>
+<script>
+  var D = window.Daydor, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { style: { display: 'grid', gridTemplateColumns: '1fr 300px', gap: 20, padding: 20, alignItems: 'start' } },
+    h('div', { style: { border: '1px solid var(--line)', borderRadius: 12, background: 'var(--surface)' } },
+      h(D.EmptyState, { icon: 'users', title: 'Let\u2019s set up Acme Labs', action: h(D.Button, { variant: 'primary' }, 'Upload last month\u2019s payroll') },
+        'Share your last payroll register or salary sheet and I\u2019ll build everyone\u2019s profile, salary structure and statutory setup from it. You\u2019ll review it before anything is saved.')),
+    h('div', { style: { border: '1px solid var(--line)', borderRadius: 12, background: 'var(--surface)' } },
+      h(D.EmptyState, { size: 'sm', icon: 'check', title: 'Nothing needs you' }, 'I\u2019ll put decisions here the moment one comes up.'))));
+</script>
+</body>
+</html>

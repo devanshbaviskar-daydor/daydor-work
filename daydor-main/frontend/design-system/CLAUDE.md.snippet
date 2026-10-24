@@ -1,0 +1,19 @@
+## Design system (Daydor)
+
+All frontend work follows `design-system/`. Before building or changing any UI:
+
+1. Read `design-system/README.md` — principles, content voice, colour/type/space rules, navigation, failure states, notifications, documents.
+2. Read `design-system/components/<Name>/README.md` for every component you use, and open its preview in `design-system/reference/previews/` to match the look and states.
+3. Use only the tokens in `design-system/tokens/tokens.json` via the Tailwind preset (`bg-surface`, `text-ink-muted`, `text-irreversible` …). No raw hex values, no Tailwind default palette, no new colours.
+
+Rules that are easy to get wrong:
+- One agent voice: users talk to "Daydor". Domains appear as labels; worker agent names only inside a Receipt.
+- Every irreversible action (money out, statutory filing, access revocation) is a DecisionCard → confirm Dialog with the lock; on phones, device re-auth. Never approve irreversible actions from a notification or the command bar.
+- Money through `formatINR` / `Amount` (Indian grouping, tabular numerals); words via `amountInWords`.
+- Employee app answers only about the signed-in employee and uses the client's `action` colour (light mode only unless the client has a dark variant).
+- Routine gates (leave, expenses) use `pace: 'routine'`; a candidate's own consent is an external blocker, not a DecisionCard.
+- Values an agent read from a photo or document are drafts until the person confirms them; bank-account changes need the VerifyCode (OTP) step.
+- Every failure says what happened to the person's data and what happens next.
+
+Implement components on shadcn/ui (Radix) + Tailwind; `design-system/reference/bundle.js` is the visual reference, not production code.
+To change the design system: edit `tokens/tokens.json` and the READMEs here, then regenerate `tokens/tokens.css` and the Tailwind preset.

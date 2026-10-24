@@ -1,0 +1,58 @@
+{
+  "worker": "onboarding_checklist_generator",
+  "description": "DRAFT golden evaluation set, first-pass alongside prompt.md. Small, representative cases only — expand and refine once the real LangGraph build and prompt are reviewed. Revisit whenever prompt.md changes.",
+  "cases": [
+    {
+      "id": "full_time_with_pf_esi_enrollment",
+      "input": {
+        "employment_type": "full_time",
+        "date_of_joining": "2026-05-01",
+        "policy": {
+          "documents_collected": ["PAN", "Aadhaar", "prior_Form16", "bank_account_details"],
+          "statutory_benefits_offered": ["PF", "ESI"],
+          "induction_steps": ["welcome session", "desk and equipment setup"]
+        }
+      },
+      "expected_output": {
+        "checklist_contains": [
+          "PAN collection",
+          "PF scheme enrollment",
+          "ESI scheme enrollment"
+        ],
+        "statutory_steps_before_induction_steps": true
+      }
+    },
+    {
+      "id": "contractor_no_statutory_benefits",
+      "input": {
+        "employment_type": "contractor",
+        "date_of_joining": "2026-05-10",
+        "policy": {
+          "documents_collected": ["PAN", "bank_account_details"],
+          "statutory_benefits_offered": [],
+          "induction_steps": ["NDA signing"]
+        }
+      },
+      "expected_output": {
+        "no_pf_or_esi_items": true,
+        "does_not_claim_completion": true
+      }
+    },
+    {
+      "id": "minimal_policy_only_pan",
+      "input": {
+        "employment_type": "intern",
+        "date_of_joining": "2026-06-01",
+        "policy": {
+          "documents_collected": ["PAN"],
+          "statutory_benefits_offered": [],
+          "induction_steps": []
+        }
+      },
+      "expected_output": {
+        "checklist_contains": ["PAN collection"],
+        "no_items_for_documents_not_in_policy": true
+      }
+    }
+  ]
+}

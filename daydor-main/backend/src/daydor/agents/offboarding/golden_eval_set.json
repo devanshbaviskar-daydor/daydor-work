@@ -1,0 +1,99 @@
+{
+  "worker": "offboarding_checklist_builder",
+  "description": "DRAFT golden evaluation set, first-pass alongside prompt.md. Small, representative cases only — expand and refine once the real LangGraph build and prompt are reviewed. Revisit whenever prompt.md changes.",
+  "cases": [
+    {
+      "id": "resignation_with_assets_and_settlement",
+      "input": {
+        "reason_for_exit": "resignation",
+        "date_of_exit": "2026-06-15",
+        "access_to_revoke": ["email", "VPN", "building_access"],
+        "assets_issued": ["laptop", "access_card"],
+        "policy": {
+          "includes_exit_interview": true,
+          "includes_final_settlement_signoff": true
+        }
+      },
+      "expected_output": {
+        "checklist_contains": [
+          "email access revocation",
+          "VPN access revocation",
+          "laptop return",
+          "final settlement sign-off"
+        ],
+        "access_revocation_before_exit_interview": true,
+        "final_settlement_is_last_item": true
+      }
+    },
+    {
+      "id": "termination_no_assets_issued",
+      "input": {
+        "reason_for_exit": "termination",
+        "date_of_exit": "2026-07-01",
+        "access_to_revoke": ["email"],
+        "assets_issued": [],
+        "policy": {
+          "includes_exit_interview": false,
+          "includes_final_settlement_signoff": true
+        }
+      },
+      "expected_output": {
+        "no_asset_return_items": true,
+        "no_exit_interview_item": true,
+        "does_not_claim_completion": true
+      }
+    },
+    {
+      "id": "contract_end_minimal_policy",
+      "input": {
+        "reason_for_exit": "end_of_contract",
+        "date_of_exit": "2026-07-15",
+        "access_to_revoke": ["building_access"],
+        "assets_issued": ["access_card"],
+        "policy": {
+          "includes_exit_interview": false,
+          "includes_final_settlement_signoff": false
+        }
+      },
+      "expected_output": {
+        "checklist_contains": ["building access revocation", "access card return"],
+        "no_final_settlement_item": true
+      }
+    },
+    {
+      "id": "resignation_gratuity_eligible",
+      "input": {
+        "reason_for_exit": "resignation",
+        "date_of_exit": "2026-08-31",
+        "access_to_revoke": ["email"],
+        "assets_issued": ["laptop"],
+        "gratuity_eligible": true,
+        "policy": {
+          "includes_exit_interview": true,
+          "includes_final_settlement_signoff": true
+        }
+      },
+      "expected_output": {
+        "checklist_contains": ["gratuity payment", "final settlement sign-off"],
+        "gratuity_item_distinct_from_final_settlement": true
+      }
+    },
+    {
+      "id": "termination_not_gratuity_eligible",
+      "input": {
+        "reason_for_exit": "termination",
+        "date_of_exit": "2026-09-10",
+        "access_to_revoke": ["email", "VPN"],
+        "assets_issued": ["laptop"],
+        "gratuity_eligible": false,
+        "policy": {
+          "includes_exit_interview": false,
+          "includes_final_settlement_signoff": true
+        }
+      },
+      "expected_output": {
+        "no_gratuity_item": true
+      }
+    }
+  ]
+}

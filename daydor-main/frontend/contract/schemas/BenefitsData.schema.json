@@ -1,0 +1,259 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "plans": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/BenefitPlan"
+      }
+    },
+    "elections": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/BenefitElection"
+      }
+    },
+    "proposedChanges": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ProposedPlanChange"
+      },
+      "description": "Present only for the roles that may see proposals (HR, founder)."
+    }
+  },
+  "required": [
+    "plans",
+    "elections"
+  ],
+  "additionalProperties": false,
+  "definitions": {
+    "BenefitPlan": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "planType": {
+          "$ref": "#/definitions/PlanType"
+        },
+        "carrier": {
+          "type": "string"
+        },
+        "planYear": {
+          "type": "string"
+        },
+        "employerContribution": {
+          "type": "number"
+        },
+        "coverageTier": {
+          "$ref": "#/definitions/CoverageTier"
+        },
+        "costSplit": {
+          "type": "object",
+          "properties": {
+            "selfSpouseChildren": {
+              "$ref": "#/definitions/CostSplitPayer"
+            },
+            "parents": {
+              "$ref": "#/definitions/CostSplitPayer"
+            },
+            "topUps": {
+              "$ref": "#/definitions/CostSplitPayer"
+            }
+          },
+          "required": [
+            "selfSpouseChildren",
+            "parents",
+            "topUps"
+          ],
+          "additionalProperties": false
+        },
+        "estimatedAnnualCost": {
+          "type": "number"
+        },
+        "renewsOn": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "planType",
+        "carrier",
+        "planYear",
+        "employerContribution",
+        "coverageTier",
+        "costSplit",
+        "estimatedAnnualCost",
+        "renewsOn"
+      ],
+      "additionalProperties": false
+    },
+    "PlanType": {
+      "type": "string",
+      "enum": [
+        "GMC",
+        "GPA",
+        "GTL"
+      ]
+    },
+    "CoverageTier": {
+      "type": "string",
+      "enum": [
+        "employee_only",
+        "employee_spouse_children",
+        "employee_spouse_children_parents"
+      ]
+    },
+    "CostSplitPayer": {
+      "type": "string",
+      "enum": [
+        "employer",
+        "employee"
+      ]
+    },
+    "BenefitElection": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "employeeId": {
+          "type": "string"
+        },
+        "employeeName": {
+          "type": "string"
+        },
+        "benefitPlanId": {
+          "type": "string"
+        },
+        "coverageTier": {
+          "$ref": "#/definitions/CoverageTier"
+        },
+        "employeeCost": {
+          "type": "number"
+        },
+        "status": {
+          "$ref": "#/definitions/ElectionStatus"
+        },
+        "effectiveFrom": {
+          "type": "string"
+        },
+        "lifeEventId": {
+          "type": "string"
+        },
+        "windowClosesAt": {
+          "type": "string"
+        },
+        "dependents": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Dependent"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "employeeId",
+        "employeeName",
+        "benefitPlanId",
+        "coverageTier",
+        "employeeCost",
+        "status",
+        "effectiveFrom",
+        "dependents"
+      ],
+      "additionalProperties": false
+    },
+    "ElectionStatus": {
+      "type": "string",
+      "enum": [
+        "pending_confirmation",
+        "active"
+      ]
+    },
+    "Dependent": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "fullName": {
+          "type": "string"
+        },
+        "relationship": {
+          "type": "string",
+          "enum": [
+            "spouse",
+            "child",
+            "parent"
+          ]
+        },
+        "dateOfBirth": {
+          "type": "string"
+        },
+        "coveredPlanIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "fullName",
+        "relationship",
+        "dateOfBirth",
+        "coveredPlanIds"
+      ],
+      "additionalProperties": false
+    },
+    "ProposedPlanChange": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "planType": {
+          "$ref": "#/definitions/PlanType"
+        },
+        "carrier": {
+          "type": "string"
+        },
+        "planYear": {
+          "type": "string"
+        },
+        "employerContribution": {
+          "type": "number"
+        },
+        "status": {
+          "type": "string",
+          "const": "awaiting_founder"
+        },
+        "replacesPlanId": {
+          "type": "string"
+        },
+        "approvalRequestId": {
+          "type": "string"
+        },
+        "canDecide": {
+          "type": "boolean",
+          "description": "Whether the signed-in role may decide it, and why not (see Decision in types/home.ts)."
+        },
+        "cannotDecideReason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "planType",
+        "carrier",
+        "planYear",
+        "employerContribution",
+        "status"
+      ],
+      "additionalProperties": false,
+      "description": "A change to the plan catalogue that HR or the founder proposed and the founder has yet to approve (g_benefit_plan)."
+    }
+  }
+}

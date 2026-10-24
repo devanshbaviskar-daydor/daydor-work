@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../bundle.css">
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+<meta charset="utf-8"><title>ObligationRow — preview</title></head>
+<body>
+<div id="root"></div>
+<script>
+  var D = window.Daydor, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { style: { padding: 24 } },
+    h('div', { className: 'panel', style: { background: 'var(--surface)', border: '1px solid var(--line)', borderRadius: 12, overflow: 'hidden' } },
+      h(D.ObligationRow, { date: '7 Nov', title: 'TDS deposit — October', authority: 'Income Tax · Challan 281', amount: 84300, status: 'filed' }),
+      h(D.ObligationRow, { date: '15 Nov', title: 'PF return (ECR) — October', authority: 'EPFO', note: 'needs your approval', amount: 50400, status: 'needs-you' }),
+      h(D.ObligationRow, { date: '15 Nov', title: 'ESI contribution — October', authority: 'ESIC', amount: 10800, status: 'upcoming' }),
+      h(D.ObligationRow, { date: '7 Oct', title: 'ESI registration', authority: 'ESIC', note: 'crossed 10 people on 22 Sep', status: 'overdue' }))));
+</script>
+</body>
+</html>

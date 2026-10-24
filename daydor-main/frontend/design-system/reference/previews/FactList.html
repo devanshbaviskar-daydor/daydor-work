@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../bundle.css">
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+<meta charset="utf-8"><title>FactList — preview</title></head>
+<body>
+<div id="root"></div>
+<script>
+  var D = window.Daydor, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { style: { padding: 24 } },
+    h(D.FactList, { columns: 2, items: [
+      { label: 'Employee ID', value: 'ACM-0007', mono: true }, { label: 'Joined', value: '14 Mar 2024' },
+      { label: 'Monthly CTC', value: 125000 }, { label: 'Manager', value: 'Abhijeet Singh' },
+      { label: 'UAN', value: '1012 3456 7890', mono: true, locked: true }, { label: 'Work location', value: 'Bengaluru (KA)' },
+      { label: 'Bank', value: 'HDFC ···· 4821', locked: true }, { label: 'Tax regime', value: 'New' }
+    ] })));
+</script>
+</body>
+</html>

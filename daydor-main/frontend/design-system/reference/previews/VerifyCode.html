@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../bundle.css">
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+<meta charset="utf-8"><title>VerifyCode — preview</title></head>
+<body>
+<div id="root"></div>
+<script>
+  var D = window.Daydor, h = React.createElement;
+  function receiptPhoto(lines, rotate) {
+    return h('div', { 'data-theme': 'light', style: { width: '74%', transform: 'rotate(' + (rotate || -2) + 'deg)', background: 'var(--surface)', color: 'var(--ink)', padding: '14px 12px 18px', fontFamily: 'var(--font-mono)', fontSize: 9.5, lineHeight: '13px', boxShadow: 'var(--shadow-lg)' } },
+      lines.map(function (l, i) { return h('div', { key: i, style: { display: 'flex', justifyContent: l[1] != null ? 'space-between' : 'center', fontWeight: l[2] ? 600 : 400, marginTop: l[3] ? 6 : 0 } }, h('span', null, l[0]), l[1] != null ? h('span', null, l[1]) : null); }));
+  }
+  var BLUE_TOKAI = [['BLUE TOKAI COFFEE ROASTERS', null, true], ['100 Ft Rd, Indiranagar'], ['GSTIN 29AAJCB12?4F1Z5'], ['14/10/2026  13:42', null, false, true], ['Cappuccino x2', '480.00', false, true], ['Cold brew x2', '520.00'], ['Croissant x1', '124.00'], ['CGST 2.5%', '28.10'], ['SGST 2.5%', '27.90'], ['TOTAL', '1,180.00', true, true], ['UPI · paid'], ['Thank you!', null, false, true]];
+  var TOIT = [['TOIT BREWPUB', null, true], ['Indiranagar, Bengaluru'], ['GSTIN 29AAFCT8812K1Z2'], ['09/10/2026  21:58', null, false, true], ['Food', '5,240.00', false, true], ['Beverages', '2,240.00'], ['CGST 2.5%', '187.00'], ['SGST 2.5%', '187.00'], ['Service chg', '6.00'], ['TOTAL', '7,860.00', true, true], ['Card ···· 2201']];
+
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { style: { display: 'flex', gap: 24, padding: 20, flexWrap: 'wrap' } },
+    h('div', { style: { width: 360, border: '1px solid var(--line)', borderRadius: 16, background: 'var(--canvas)' } },
+      h(D.VerifyCode, { title: 'Confirm your new bank account', destination: '+91 98••• ••210', defaultValue: '73', resendIn: '0:42',
+        summary: h(D.FactList, { items: [{ label: 'New account', value: 'ICICI ···· 0917' }, { label: 'IFSC', value: 'ICIC0001234', mono: true }] }),
+        footer: [h(D.Button, { key: 'c', variant: 'primary', icon: 'lock', disabled: true }, 'Confirm change'), h(D.Button, { key: 'x', variant: 'ghost' }, 'Cancel')] })),
+    h('div', { style: { width: 360, border: '1px solid var(--line)', borderRadius: 16, background: 'var(--canvas)' } },
+      h(D.VerifyCode, { title: 'Confirm your new bank account', destination: '+91 98••• ••210', defaultValue: '738104', error: 'That code doesn\u2019t match. 2 tries left.',
+        footer: [h(D.Button, { key: 'c', variant: 'primary', icon: 'lock' }, 'Confirm change')] }))));
+</script>
+</body>
+</html>

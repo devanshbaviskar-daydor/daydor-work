@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../bundle.css">
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+<meta charset="utf-8"><title>Table — preview</title></head>
+<body>
+<div id="root"></div>
+<script>
+  var D = window.Daydor, h = React.createElement;
+  var rows = [
+    { id: 1, name: 'Priya Raghavan', gross: 125000, pf: 1800, net: 108450, status: 'draft', note: 'Revision applied' },
+    { id: 2, name: 'Arjun Mehta', gross: 82000, pf: 1800, net: 63210, status: 'draft', note: '3 days LOP' },
+    { id: 3, name: 'Sneha Kulkarni', gross: 96000, pf: 1800, net: 84120, status: 'draft' },
+    { id: 4, name: 'Rahul Verma', gross: 64000, pf: 1800, net: 56890, status: 'draft' }
+  ];
+  var A = function (k) { return function (r) { return h(D.Amount, { value: r[k] }); }; };
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { style: { padding: 20 } },
+    h(D.Table, { caption: 'October payroll register', rows: rows, columns: [
+      { key: 'name', header: 'Employee', render: function (r) { return h('div', null, h('div', null, r.name), r.note ? h('div', { style: { fontSize: 12, color: 'var(--ink-muted)' } }, r.note) : null); } },
+      { key: 'gross', header: 'Gross', numeric: true, render: A('gross') },
+      { key: 'pf', header: 'PF', numeric: true, render: A('pf') },
+      { key: 'net', header: 'Net pay', numeric: true, render: A('net') },
+      { key: 'status', header: 'Status', render: function (r) { return h(D.Badge, { status: r.status }); } }
+    ] })));
+</script>
+</body>
+</html>

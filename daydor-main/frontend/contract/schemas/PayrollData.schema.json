@@ -1,0 +1,324 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "runs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/PayrollRun"
+      }
+    },
+    "payslipsByRunId": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Payslip"
+        }
+      }
+    },
+    "filingsByRunId": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/FilingRecord"
+        }
+      }
+    }
+  },
+  "required": [
+    "runs",
+    "payslipsByRunId",
+    "filingsByRunId"
+  ],
+  "additionalProperties": false,
+  "definitions": {
+    "PayrollRun": {
+      "type": "object",
+      "properties": {
+        "payroll_run_id": {
+          "type": "string"
+        },
+        "legal_entity_id": {
+          "type": "string"
+        },
+        "legal_entity_name": {
+          "type": "string"
+        },
+        "period_start": {
+          "type": "string"
+        },
+        "period_end": {
+          "type": "string"
+        },
+        "period_label": {
+          "type": "string"
+        },
+        "pay_date": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/definitions/PayrollRunStatus"
+        },
+        "gross_total": {
+          "type": "number"
+        },
+        "net_total": {
+          "type": "number"
+        },
+        "anomaly_score": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "anomaly_decision": {
+          "$ref": "#/definitions/AnomalyDecision"
+        },
+        "approval_request_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "disbursed_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "payslip_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "employee_count": {
+          "type": "number"
+        },
+        "joiners": {
+          "type": "number"
+        },
+        "leavers": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "payroll_run_id",
+        "legal_entity_id",
+        "legal_entity_name",
+        "period_start",
+        "period_end",
+        "period_label",
+        "pay_date",
+        "status",
+        "gross_total",
+        "net_total",
+        "anomaly_score",
+        "approval_request_id",
+        "disbursed_at",
+        "payslip_ids",
+        "employee_count",
+        "joiners",
+        "leavers"
+      ],
+      "additionalProperties": false,
+      "description": "Mirrors Daydor-Build's `payroll_run` table and run-lifecycle endpoints (`POST /runs`, `/request-disbursal`, `/disburse`, `/issue-payslips`, `/file`) — field names kept exact per the co-founder's API comparison, domain 2."
+    },
+    "PayrollRunStatus": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "built",
+        "anomaly_check",
+        "awaiting_disbursal_approval",
+        "disbursed",
+        "payslips_issued",
+        "filed"
+      ]
+    },
+    "AnomalyDecision": {
+      "type": "string",
+      "enum": [
+        "clear",
+        "escalated"
+      ]
+    },
+    "Payslip": {
+      "type": "object",
+      "properties": {
+        "payslip_id": {
+          "type": "string"
+        },
+        "payroll_run_id": {
+          "type": "string"
+        },
+        "employee_id": {
+          "type": "string"
+        },
+        "employee_name": {
+          "type": "string"
+        },
+        "employee_role": {
+          "type": "string"
+        },
+        "pan": {
+          "type": "string"
+        },
+        "uan": {
+          "type": "string"
+        },
+        "bank_account_masked": {
+          "type": "string"
+        },
+        "paid_days": {
+          "type": "string"
+        },
+        "gross_pay": {
+          "type": "number"
+        },
+        "net_pay": {
+          "type": "number"
+        },
+        "tax_withheld": {
+          "type": "number"
+        },
+        "issued_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "earnings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PayslipEarning"
+          }
+        },
+        "deductions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PayslipLine"
+          }
+        },
+        "employerContributions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PayslipLine"
+          }
+        },
+        "changeNote": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "payslip_id",
+        "payroll_run_id",
+        "employee_id",
+        "employee_name",
+        "employee_role",
+        "pan",
+        "uan",
+        "bank_account_masked",
+        "paid_days",
+        "gross_pay",
+        "net_pay",
+        "tax_withheld",
+        "issued_at",
+        "earnings",
+        "deductions",
+        "employerContributions"
+      ],
+      "additionalProperties": false,
+      "description": "Mirrors Daydor-Build's `payslip` table field names exactly."
+    },
+    "PayslipEarning": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "label",
+        "amount"
+      ],
+      "additionalProperties": false
+    },
+    "PayslipLine": {
+      "type": "object",
+      "properties": {
+        "component": {
+          "$ref": "#/definitions/StatutoryComponent"
+        },
+        "label": {
+          "type": "string"
+        },
+        "rate_description": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "component",
+        "label",
+        "rate_description",
+        "amount"
+      ],
+      "additionalProperties": false
+    },
+    "StatutoryComponent": {
+      "type": "string",
+      "enum": [
+        "pf_employee",
+        "pf_employer",
+        "esi_employee",
+        "esi_employer",
+        "pt",
+        "tds"
+      ],
+      "description": "daydor's own differentiator (Product Spec §2.4): four named statutory calculators, not Daydor-Build's generic component_code/amount pair."
+    },
+    "FilingRecord": {
+      "type": "object",
+      "properties": {
+        "legal_entity_id": {
+          "type": "string"
+        },
+        "scheme": {
+          "type": "string"
+        },
+        "period": {
+          "type": "string"
+        },
+        "filed_on": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "acknowledgement_no": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "legal_entity_id",
+        "scheme",
+        "period",
+        "filed_on",
+        "acknowledgement_no"
+      ],
+      "additionalProperties": false,
+      "description": "For the compliance-filing side of a run — one per (legal entity, scheme, period)."
+    }
+  }
+}

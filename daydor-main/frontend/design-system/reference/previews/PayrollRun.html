@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../bundle.css">
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+
+<meta charset="utf-8">
+<title>PayrollRun — preview</title>
+<style>
+  .shell { display: grid; grid-template-columns: 232px 1fr; height: 860px; background: var(--canvas); }
+  .page { overflow: hidden; padding: var(--space-8) var(--space-12); }
+  .page-inner { max-width: 1040px; margin: 0 auto; display: flex; flex-direction: column; gap: var(--space-6); }
+  .panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); }
+  .panel-pad { padding: var(--space-5) var(--space-6); }
+  .panel-title { margin: 0 0 var(--space-4); font-size: 15px; line-height: 22px; font-weight: 600; }
+  .grid2 { display: grid; grid-template-columns: 1.4fr 1fr; gap: var(--space-6); align-items: start; }
+  .sec-label { font-size: 12px; font-weight: 500; color: var(--ink-muted); margin: 0 0 var(--space-2); }
+
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  var D = window.Daydor, h = React.createElement;
+  var nav = [
+    { key: 'home', label: 'Home', icon: 'home', count: 3, countTone: 'warning' },
+    { key: 'people', label: 'People', icon: 'users', count: 14 },
+    { key: 'hiring', label: 'Hiring', icon: 'briefcase', count: 2 },
+    { key: 'leave', label: 'Leave & attendance', icon: 'calendar' },
+    { key: 'payroll', label: 'Payroll', icon: 'rupee' },
+    { key: 'expenses', label: 'Expenses', icon: 'receipt' },
+    { key: 'compliance', label: 'Compliance', icon: 'landmark' },
+    { key: 'docs', label: 'Documents', icon: 'folder' }
+  ].map(function (n) { return Object.assign(n, { active: n.key === 'payroll' }); });
+  var sidebar = h(D.Sidebar, { workspace: 'Acme Labs', user: { name: 'Abhijeet Singh', role: 'Founder' }, items: nav });
+
+  var rows = [
+    { id: 1, name: 'Priya Raghavan', gross: 125000, ded: 16550, net: 108450, change: '+₹14,300', why: 'CTC revision from 1 Oct', flag: true },
+    { id: 2, name: 'Arjun Mehta', gross: 82000, ded: 18790, net: 63210, change: '−₹8,200', why: '3 days loss-of-pay', flag: true },
+    { id: 3, name: 'Sneha Kulkarni', gross: 96000, ded: 11880, net: 84120, change: '—' },
+    { id: 4, name: 'Rahul Verma', gross: 64000, ded: 7110, net: 56890, change: '—' },
+    { id: 5, name: 'Kavya Nair', gross: 72000, ded: 8240, net: 63760, change: 'New', why: 'Joins 3 Nov — prorated next month' }
+  ];
+  var A = function (k) { return function (r) { return h(D.Amount, { value: r[k] }); }; };
+  var content = [
+    h(D.PageHeader, { key: 'h', eyebrow: ['Payroll', 'Oct 2026'], title: 'October payroll', status: 'needs-you', description: '14 people · pay date 31 Oct',
+      actions: [h(D.Button, { key: 'r', icon: 'file' }, 'Register'), h(D.Button, { key: 'a', variant: 'primary', icon: 'lock' }, 'Approve & release')],
+      tabs: [{ label: 'Summary', active: true }, { label: 'Employees', count: 14 }, { label: 'Statutory' }, { label: 'History' }] }),
+    h(D.Stepper, { key: 's', steps: [
+      { label: 'Attendance closed', state: 'done', meta: '13 Oct, 9:02 am' }, { label: 'Pay computed', state: 'done', meta: '9:04 am' },
+      { label: 'Variance check', state: 'done', meta: '2 people flagged' }, { label: 'Your approval', state: 'current', meta: 'Due in 5 days', writeClass: 'irreversible' },
+      { label: 'Salaries released', state: 'upcoming', meta: '31 Oct' }, { label: 'Payslips sent', state: 'upcoming' }] }),
+    h('div', { key: 'st', className: 'panel panel-pad' }, h(D.StatRow, { items: [
+      { label: 'Net pay', value: 1248600, delta: '+₹38,200 vs Sep', deltaTone: 'warning' }, { label: 'Employer PF + ESI', value: 61200, delta: 'same as Sep' },
+      { label: 'TDS', value: 84300, delta: '−₹2,100 vs Sep' }, { label: 'People', value: '14', delta: '1 joiner, 0 leavers' }] })),
+    h('div', { key: 'm', className: 'grid2' },
+      h('div', null,
+        h('p', { className: 'sec-label' }, 'What changed since September'),
+        h(D.Table, { caption: 'Employees with changes', rows: rows, columns: [
+          { key: 'name', header: 'Employee', render: function (r) { return h('div', null, h('div', null, r.name), r.why ? h('div', { style: { fontSize: 12, color: 'var(--ink-muted)' } }, r.why) : null); } },
+          { key: 'net', header: 'Net pay', numeric: true, render: A('net') },
+          { key: 'change', header: 'vs Sep', numeric: true, render: function (r) { return h('span', { style: { color: r.flag ? 'var(--warning)' : 'var(--ink-muted)', fontWeight: r.flag ? 500 : 400 } }, r.change); } }
+        ] })),
+      h('div', null,
+        h('p', { className: 'sec-label' }, 'Ask about this run'),
+        h(D.Message, { domain: 'Payroll', time: '9:06 am' }, h('p', null, 'Everything reconciles with attendance and approved leave. The two flagged changes are both expected — nothing else moved more than 2%.')),
+        h('div', { style: { height: 12 } }),
+        h(D.Receipt, { duration: '4 min', writeClass: 'guarded', steps: [1, 2, 3, 4, 5].map(function (i) { return { text: 'step ' + i }; }) })))
+  ];
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { className: 'shell' }, sidebar, h('main', { className: 'page' }, h('div', { className: 'page-inner' }, content))));
+</script>
+</body>
+</html>

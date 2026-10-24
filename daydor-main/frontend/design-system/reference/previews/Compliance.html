@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../bundle.css">
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+
+<meta charset="utf-8">
+<title>Compliance — preview</title>
+<style>
+  .shell { display: grid; grid-template-columns: 232px 1fr; height: 860px; background: var(--canvas); }
+  .page { overflow: hidden; padding: var(--space-8) var(--space-12); }
+  .page-inner { max-width: 1040px; margin: 0 auto; display: flex; flex-direction: column; gap: var(--space-6); }
+  .panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); }
+  .panel-pad { padding: var(--space-5) var(--space-6); }
+  .panel-title { margin: 0 0 var(--space-4); font-size: 15px; line-height: 22px; font-weight: 600; }
+  .grid2 { display: grid; grid-template-columns: 1.4fr 1fr; gap: var(--space-6); align-items: start; }
+  .sec-label { font-size: 12px; font-weight: 500; color: var(--ink-muted); margin: 0 0 var(--space-2); }
+
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  var D = window.Daydor, h = React.createElement;
+  var nav = [
+    { key: 'home', label: 'Home', icon: 'home', count: 3, countTone: 'warning' },
+    { key: 'people', label: 'People', icon: 'users', count: 14 },
+    { key: 'hiring', label: 'Hiring', icon: 'briefcase', count: 2 },
+    { key: 'leave', label: 'Leave & attendance', icon: 'calendar' },
+    { key: 'payroll', label: 'Payroll', icon: 'rupee' },
+    { key: 'expenses', label: 'Expenses', icon: 'receipt' },
+    { key: 'compliance', label: 'Compliance', icon: 'landmark' },
+    { key: 'docs', label: 'Documents', icon: 'folder' }
+  ].map(function (n) { return Object.assign(n, { active: n.key === 'compliance' }); });
+  var sidebar = h(D.Sidebar, { workspace: 'Acme Labs', user: { name: 'Abhijeet Singh', role: 'Founder' }, items: nav });
+
+  var row = function (p) { return h(D.ObligationRow, p); };
+  var content = [
+    h(D.PageHeader, { key: 'h', eyebrow: ['Compliance', 'Karnataka'], title: 'Statutory calendar', description: 'PF, ESI, PT and TDS for Acme Labs. Daydor prepares every filing; you approve each one before it goes to the government.',
+      tabs: [{ label: 'Upcoming', active: true }, { label: 'Filed', count: 31 }, { label: 'Registrations' }] }),
+    h(D.Banner, { key: 'b', tone: 'danger', title: 'ESI registration is overdue.', action: { label: 'Open decision' } }, 'You crossed 10 people on 22 Sep; registration was due within 15 days.'),
+    h('div', { key: 'st', className: 'panel panel-pad' }, h(D.StatRow, { items: [
+      { label: 'Due in the next 30 days', value: '6' }, { label: 'Need your approval', value: '2', delta: 'PF return, PT challan', deltaTone: 'warning' },
+      { label: 'Filed on time this year', value: '31 of 31', delta: 'no penalties', deltaTone: 'success' }] })),
+    h('div', { key: 'nov' }, h('p', { className: 'sec-label' }, 'October'),
+      h('div', { className: 'panel', style: { overflow: 'hidden' } },
+        row({ date: '7 Oct', title: 'ESI registration', authority: 'ESIC', note: 'crossed 10 people on 22 Sep', status: 'overdue' }),
+        row({ date: '20 Oct', title: 'Professional Tax — September', authority: 'Karnataka PT', amount: 2600, status: 'needs-you' }))),
+    h('div', { key: 'dec' }, h('p', { className: 'sec-label' }, 'November'),
+      h('div', { className: 'panel', style: { overflow: 'hidden' } },
+        row({ date: '7 Nov', title: 'TDS deposit — October', authority: 'Income Tax · Challan 281', amount: 84300, status: 'upcoming' }),
+        row({ date: '15 Nov', title: 'PF return (ECR) — October', authority: 'EPFO', amount: 50400, status: 'needs-you' }),
+        row({ date: '15 Nov', title: 'ESI contribution — October', authority: 'ESIC', amount: 10800, status: 'upcoming' }),
+        row({ date: '30 Nov', title: 'Shops & Establishments renewal', authority: 'Karnataka Labour Dept', status: 'upcoming' })))
+  ];
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { className: 'shell' }, sidebar, h('main', { className: 'page' }, h('div', { className: 'page-inner' }, content))));
+</script>
+</body>
+</html>

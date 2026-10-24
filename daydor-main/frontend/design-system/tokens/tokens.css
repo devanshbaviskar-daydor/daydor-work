@@ -1,0 +1,115 @@
+/* Daydor — generated from tokens.json. Do not edit by hand; change tokens.json and regenerate. */
+
+:root, [data-theme="light"] {
+  --canvas: #fafaf9;
+  --surface: #ffffff;
+  --surface-sunken: #f3f3f1;
+  --line: #e6e5e2;
+  --line-strong: #8a8984;
+  --ink: #1b1b19;
+  --ink-muted: #63625d;
+  --on-ink: #ffffff;
+  --brand: #0d6b5e;
+  --brand-strong: #095247;
+  --brand-soft: #e5f1ee;
+  --on-brand: #ffffff;
+  --action: var(--brand);
+  --action-strong: var(--brand-strong);
+  --action-soft: var(--brand-soft);
+  --on-action: var(--on-brand);
+  --link: var(--action);
+  --focus: #2563c9;
+  --irreversible: #9a3d0a;
+  --irreversible-soft: #fcede3;
+  --success: #1e7a3c;
+  --success-soft: #e7f4ea;
+  --warning: #8a5300;
+  --warning-soft: #fbf1dd;
+  --danger: #b42318;
+  --danger-soft: #fcebe9;
+  --on-danger: #ffffff;
+  --info: #1f5fa6;
+  --info-soft: #e8eff9;
+  --photo-ground: #1b1b19;
+  --shadow-sm: 0 1px 2px rgba(27, 27, 25, 0.05);
+  --shadow-md: 0 6px 20px rgba(27, 27, 25, 0.08), 0 1px 3px rgba(27, 27, 25, 0.06);
+  --shadow-lg: 0 20px 48px rgba(27, 27, 25, 0.16);
+}
+
+[data-theme="dark"] {
+  --canvas: #111312;
+  --surface: #181a19;
+  --surface-sunken: #202322;
+  --line: #2c302e;
+  --line-strong: #737a77;
+  --ink: #eceeec;
+  --ink-muted: #a0a6a3;
+  --on-ink: #111312;
+  --brand: #5cc4b1;
+  --brand-strong: #7dd3c3;
+  --brand-soft: #15302b;
+  --on-brand: #0b1513;
+  --action: var(--brand);
+  --action-strong: var(--brand-strong);
+  --action-soft: var(--brand-soft);
+  --on-action: var(--on-brand);
+  --focus: #7aa7f0;
+  --irreversible: #f0a06a;
+  --irreversible-soft: #33200f;
+  --success: #6fcf8e;
+  --success-soft: #15291c;
+  --warning: #e8b04a;
+  --warning-soft: #2e2410;
+  --danger: #f2857a;
+  --danger-soft: #341614;
+  --on-danger: #1a0d0b;
+  --info: #82b1ee;
+  --info-soft: #152437;
+  --photo-ground: #0a0b0a;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 20px 48px rgba(0, 0, 0, 0.6);
+}
+
+/* White-label: copy this block per client as [data-theme="client-<id>"], overriding only the four action tokens. Client themes are light-based. */
+[data-theme="client"] {
+  --action: #7b2d6b;
+  --action-strong: #5f2153;
+  --action-soft: #f6e9f3;
+  --on-action: #ffffff;
+}
+
+:root {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 999px;
+  --control-sm: 28px;
+  --control-md: 36px;
+  --control-lg: 44px;
+  --conversation-max: 720px;
+  --rail-width: 340px;
+  --form-max: 520px;
+  --font-sans: Geist, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+.display { font-family: var(--font-sans); font-size: 28px; line-height: 34px; font-weight: 500; letter-spacing: -0.025em; }
+.title-lg { font-family: var(--font-sans); font-size: 20px; line-height: 28px; font-weight: 500; letter-spacing: -0.015em; }
+.title { font-family: var(--font-sans); font-size: 15px; line-height: 22px; font-weight: 600; letter-spacing: -0.005em; }
+.reading { font-family: var(--font-sans); font-size: 15px; line-height: 24px; font-weight: 400; }
+.body { font-family: var(--font-sans); font-size: 14px; line-height: 21px; font-weight: 400; }
+.small { font-family: var(--font-sans); font-size: 13px; line-height: 19px; font-weight: 400; }
+.label { font-family: var(--font-sans); font-size: 13px; line-height: 18px; font-weight: 500; }
+.eyebrow { font-family: var(--font-sans); font-size: 12px; line-height: 16px; font-weight: 500; letter-spacing: 0.01em; }
+.figure { font-family: var(--font-sans); font-size: 24px; line-height: 30px; font-weight: 500; letter-spacing: -0.02em; }
+.code { font-family: var(--font-mono); font-size: 12px; line-height: 18px; font-weight: 400; }

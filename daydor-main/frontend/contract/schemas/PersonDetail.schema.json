@@ -1,0 +1,188 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "role": {
+      "type": "string"
+    },
+    "department": {
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/definitions/EmploymentStatus"
+    },
+    "joinDate": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Null when the role reads people through the directory, which does not carry the joining date."
+    },
+    "location": {
+      "type": "string"
+    },
+    "employeeId": {
+      "type": "string"
+    },
+    "manager": {
+      "type": "string"
+    },
+    "monthlyCtc": {
+      "type": "number",
+      "description": "Absent when the signed-in role may not read pay."
+    },
+    "taxRegime": {
+      "type": "string",
+      "enum": [
+        "Old",
+        "New"
+      ]
+    },
+    "stats": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/PersonStat"
+      }
+    },
+    "fields": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/PersonProfileField"
+      }
+    },
+    "timeline": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/PersonTimelineEntry"
+      }
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "role",
+    "department",
+    "status",
+    "joinDate",
+    "location",
+    "employeeId",
+    "manager",
+    "stats",
+    "fields",
+    "timeline"
+  ],
+  "additionalProperties": false,
+  "definitions": {
+    "EmploymentStatus": {
+      "type": "string",
+      "enum": [
+        "active",
+        "on-leave",
+        "withdrawn"
+      ]
+    },
+    "PersonStat": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "value": {
+          "type": [
+            "number",
+            "string"
+          ]
+        },
+        "delta": {
+          "type": "string"
+        },
+        "deltaTone": {
+          "type": "string",
+          "enum": [
+            "warning",
+            "success"
+          ]
+        }
+      },
+      "required": [
+        "label",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "PersonProfileField": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        },
+        "tier": {
+          "$ref": "#/definitions/ProfileFieldTier"
+        },
+        "mono": {
+          "type": "boolean"
+        },
+        "pending": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "label",
+        "value",
+        "tier"
+      ],
+      "additionalProperties": false
+    },
+    "ProfileFieldTier": {
+      "type": "string",
+      "enum": [
+        "direct",
+        "review",
+        "gated"
+      ]
+    },
+    "PersonTimelineEntry": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "domain": {
+          "type": "string"
+        },
+        "time": {
+          "type": "string"
+        },
+        "writeClass": {
+          "type": "string",
+          "enum": [
+            "read",
+            "guarded",
+            "irreversible"
+          ]
+        },
+        "by": {
+          "type": "string",
+          "const": "person"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "text",
+        "time"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../bundle.css">
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+<meta charset="utf-8"><title>Button — preview</title></head>
+<body>
+<div id="root"></div>
+<script>
+  var D = window.Daydor, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', null,
+    h('div', { className: 'dd-row', style: { paddingBottom: 0 } },
+      h(D.Button, { variant: 'primary' }, 'Approve & file'), h(D.Button, null, 'See the return'), h(D.Button, { variant: 'ghost' }, 'Delegate'), h(D.Button, { variant: 'danger' }, 'Revoke access')),
+    h('div', { className: 'dd-row' },
+      h(D.Button, { variant: 'primary', size: 'sm', icon: 'check' }, 'Approve'), h(D.Button, { size: 'sm', icon: 'undo' }, 'Undo'), h(D.Button, { variant: 'primary', loading: true }, 'Filing'), h(D.Button, { disabled: true }, 'Disabled'))));
+</script>
+</body>
+</html>

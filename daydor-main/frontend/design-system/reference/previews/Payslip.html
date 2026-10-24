@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../bundle.css">
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+<meta charset="utf-8"><title>Payslip — preview</title></head>
+<body>
+<div id="root"></div>
+<script>
+  var D = window.Daydor, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { style: { padding: 24, display: 'flex', justifyContent: 'center' } },
+    h(D.Payslip, {
+      theme: 'client', company: 'Acme Labs Pvt Ltd', address: '42, 3rd Cross, Indiranagar, Bengaluru 560038', period: 'October 2026 · paid 31 Oct',
+      employee: { name: 'Priya Raghavan', id: 'ACM-0007', role: 'Product designer', joined: '14 Mar 2024', pan: 'ABCPR····F', uan: '1012 3456 7890', bank: 'HDFC ···· 4821', paidDays: '31 of 31' },
+      earnings: [['Basic', 62500], ['House rent allowance', 25000], ['Special allowance', 31250], ['Leave travel allowance', 6250]],
+      deductions: [['Employee PF', 1800], ['Professional tax', 200], ['Income tax (TDS)', 14550]],
+      employer: [['Employer PF', 1800]]
+    })));
+</script>
+</body>
+</html>

@@ -1,0 +1,611 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "requisition": {
+      "$ref": "#/definitions/RequisitionSummary"
+    },
+    "pipeline": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/PipelineItem"
+      }
+    },
+    "access": {
+      "type": "object",
+      "properties": {
+        "can_enter_applications": {
+          "type": "boolean"
+        },
+        "sees_candidates": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "can_enter_applications",
+        "sees_candidates"
+      ],
+      "additionalProperties": false
+    },
+    "onboarding": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/RequisitionOnboarding"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "awaiting": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "new_hire_details",
+        null
+      ],
+      "description": "The hire is waiting for HR to record the new hire's personal details (POST /hire/requisitions/{id}/new-hire-details)."
+    }
+  },
+  "required": [
+    "requisition",
+    "pipeline",
+    "access"
+  ],
+  "additionalProperties": false,
+  "definitions": {
+    "RequisitionSummary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "target_start_date": {
+          "type": "string"
+        },
+        "position_id": {
+          "type": "string"
+        },
+        "hiring_manager_id": {
+          "type": "string"
+        },
+        "hiring_manager_name": {
+          "type": "string"
+        },
+        "job_title": {
+          "type": "string"
+        },
+        "department_name": {
+          "type": "string"
+        },
+        "stage": {
+          "$ref": "#/definitions/RequisitionStage"
+        },
+        "approval": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/RequisitionApproval"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "posting": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/RequisitionPosting"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "candidate_count": {
+          "type": "number"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "appointment_letter": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "not_applicable",
+                "pending",
+                "generated",
+                "sent",
+                "acknowledged"
+              ]
+            }
+          },
+          "required": [
+            "status"
+          ],
+          "additionalProperties": false,
+          "description": "Daydor addition: India's Industrial Relations Code / OSH Central Rules 2026 require an appointment letter; no Daydor-Build equivalent exists."
+        },
+        "threshold_heads_up": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ThresholdHeadsUp"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Daydor addition: requisition_opener's read-only heads-up when filling this seat would cross a statutory headcount threshold (Domain 1)."
+        }
+      },
+      "required": [
+        "id",
+        "status",
+        "target_start_date",
+        "position_id",
+        "hiring_manager_id",
+        "hiring_manager_name",
+        "job_title",
+        "department_name",
+        "stage",
+        "approval",
+        "posting",
+        "candidate_count",
+        "created_at",
+        "appointment_letter",
+        "threshold_heads_up"
+      ],
+      "additionalProperties": false
+    },
+    "RequisitionStage": {
+      "type": "string",
+      "enum": [
+        "drafting",
+        "awaiting_budget_approval",
+        "budget_rejected",
+        "approved",
+        "posted"
+      ]
+    },
+    "RequisitionApproval": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "gate_type": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "status",
+        "gate_type"
+      ],
+      "additionalProperties": false
+    },
+    "RequisitionPosting": {
+      "type": "object",
+      "properties": {
+        "channel": {
+          "type": "string"
+        },
+        "pay_range_min": {
+          "type": "number"
+        },
+        "pay_range_max": {
+          "type": "number"
+        },
+        "pay_transparency_checked": {
+          "type": "boolean"
+        },
+        "posted_at": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "channel",
+        "pay_range_min",
+        "pay_range_max",
+        "pay_transparency_checked",
+        "posted_at"
+      ],
+      "additionalProperties": false
+    },
+    "ThresholdHeadsUp": {
+      "type": "object",
+      "properties": {
+        "scheme": {
+          "type": "string"
+        },
+        "headcount_at_check": {
+          "type": "number"
+        },
+        "threshold": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "scheme",
+        "headcount_at_check",
+        "threshold"
+      ],
+      "additionalProperties": false
+    },
+    "PipelineItem": {
+      "type": "object",
+      "properties": {
+        "application": {
+          "$ref": "#/definitions/PipelineApplication"
+        },
+        "candidate": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/PipelineCandidate"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "screening": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/PipelineScreening"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "interview": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/PipelineInterview"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "offer": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/PipelineOffer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "background_check": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/PipelineBackgroundCheck"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "application",
+        "candidate",
+        "screening",
+        "interview",
+        "offer",
+        "background_check"
+      ],
+      "additionalProperties": false
+    },
+    "PipelineApplication": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "stage": {
+          "$ref": "#/definitions/ApplicationStage"
+        },
+        "stage_changed_at": {
+          "type": "string"
+        },
+        "rejection_reason_code": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "stage",
+        "stage_changed_at",
+        "rejection_reason_code"
+      ],
+      "additionalProperties": false
+    },
+    "ApplicationStage": {
+      "type": "string",
+      "enum": [
+        "applied",
+        "screening",
+        "interview",
+        "offer",
+        "background_check",
+        "hired"
+      ]
+    },
+    "PipelineCandidate": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "full_name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "full_name",
+        "email",
+        "source"
+      ],
+      "additionalProperties": false
+    },
+    "PipelineScreening": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "score": {
+          "type": "number"
+        },
+        "recommendation": {
+          "type": "string"
+        },
+        "tool_name": {
+          "type": "string"
+        },
+        "model_version": {
+          "type": "string"
+        },
+        "candidate_notified_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "human_override": {
+          "type": "boolean"
+        },
+        "approval": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/RequisitionApproval"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "score",
+        "recommendation",
+        "tool_name",
+        "model_version",
+        "candidate_notified_at",
+        "human_override",
+        "approval"
+      ],
+      "additionalProperties": false
+    },
+    "PipelineInterview": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "scheduled_at": {
+          "type": "string"
+        },
+        "interviewer_employee_id": {
+          "type": "string"
+        },
+        "interviewer_name": {
+          "type": "string"
+        },
+        "recommendation": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "scheduled_at",
+        "interviewer_employee_id",
+        "interviewer_name",
+        "recommendation"
+      ],
+      "additionalProperties": false
+    },
+    "PipelineOffer": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "proposed_base": {
+          "type": "number"
+        },
+        "proposed_equity": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "within_band": {
+          "type": "boolean"
+        },
+        "sent_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "accepted_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "band": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/CompBand"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "approval": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/RequisitionApproval"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "proposed_base",
+        "proposed_equity",
+        "within_band",
+        "sent_at",
+        "accepted_at",
+        "band",
+        "approval"
+      ],
+      "additionalProperties": false
+    },
+    "CompBand": {
+      "type": "object",
+      "properties": {
+        "currency": {
+          "type": "string"
+        },
+        "band_min": {
+          "type": "number"
+        },
+        "band_mid": {
+          "type": "number"
+        },
+        "band_max": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "currency",
+        "band_min",
+        "band_mid",
+        "band_max"
+      ],
+      "additionalProperties": false
+    },
+    "PipelineBackgroundCheck": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "awaiting_consent",
+            "in_progress",
+            "clear",
+            "flagged"
+          ]
+        },
+        "consent_requested_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "consent_received_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "retain_until": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "status",
+        "consent_requested_at",
+        "consent_received_at",
+        "retain_until"
+      ],
+      "additionalProperties": false,
+      "description": "Daydor addition replacing Daydor-Build's `background_check` US-FCRA fields (`adverse_action_stage`, `pre_adverse_notice_at`, which have no Indian-law meaning) with DPDP consent tracking instead."
+    },
+    "RequisitionOnboarding": {
+      "type": "object",
+      "properties": {
+        "employee_id": {
+          "type": "string"
+        },
+        "instance_state": {
+          "type": "string"
+        },
+        "instance_status": {
+          "type": "string"
+        },
+        "awaiting_consent_request": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "employee_id",
+        "instance_state",
+        "instance_status",
+        "awaiting_consent_request"
+      ],
+      "additionalProperties": false,
+      "description": "The hire's progress once the employee exists; only for the roles that may read workflows (HR, founder, payroll)."
+    }
+  }
+}

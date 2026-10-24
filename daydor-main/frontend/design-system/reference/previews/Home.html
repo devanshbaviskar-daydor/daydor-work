@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../bundle.css">
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+
+<meta charset="utf-8">
+<title>Home — preview</title>
+<style>
+  .home { display: grid; grid-template-columns: 232px 1fr; height: 820px; background: var(--canvas); }
+  .bar { display: flex; align-items: center; gap: var(--space-3); padding: 0 var(--space-5); border-bottom: 1px solid var(--line); background: var(--canvas); }
+  .wordmark { font-weight: 600; font-size: 17px; letter-spacing: -0.03em; color: var(--brand); }
+  .ws { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--ink-muted); padding: 4px 8px; border-radius: var(--radius-sm); }
+  .ws b { color: var(--ink); font-weight: 500; }
+  .spacer { flex: 1; }
+  .body { display: grid; grid-template-columns: 1fr var(--rail-width); min-height: 0; }
+  .main { display: flex; flex-direction: column; min-height: 0; }
+  .scroll { flex: 1; overflow: hidden; padding: var(--space-6) var(--space-8) 0; -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 32px), transparent); mask-image: linear-gradient(to bottom, #000 calc(100% - 32px), transparent); }
+  .col { max-width: var(--conversation-max); margin: 0 auto; display: flex; flex-direction: column; gap: var(--space-6); }
+  .divider { display: flex; align-items: center; gap: var(--space-3); font-size: 12px; color: var(--ink-muted); margin: var(--space-2) 0 -4px; }
+  .divider::before, .divider::after { content: ""; height: 1px; flex: 1; background: var(--line); }
+  .dock { padding: var(--space-4) var(--space-8) var(--space-5); background: var(--canvas); }
+  .dock .dd-composer-wrap { margin: 0 auto; }
+  .rail { border-left: 1px solid var(--line); background: var(--surface); padding: var(--space-5) var(--space-3); overflow: hidden; display: flex; flex-direction: column; gap: var(--space-6); }
+  .rail h2 { margin: 0 0 6px; padding: 0 var(--space-3); display: flex; justify-content: space-between; font-size: 12px; line-height: 16px; font-weight: 500; color: var(--ink-muted); letter-spacing: 0.01em; }
+  .rail h2 span:last-child { font-variant-numeric: tabular-nums; }
+  .rail .dd-run { padding-left: 2px; }
+  .more { font-size: 13px; color: var(--ink-muted); padding: 6px var(--space-3); }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  var D = window.Daydor, h = React.createElement;
+  var sidebar = h(D.Sidebar, { workspace: 'Acme Labs', user: { name: 'Abhijeet Singh', role: 'Founder' }, items: [
+    { key: 'home', active: true, label: 'Home', icon: 'home', count: 3, countTone: 'warning' },
+    { key: 'people', label: 'People', icon: 'users', count: 14 },
+    { key: 'hiring', label: 'Hiring', icon: 'briefcase', count: 2 },
+    { key: 'leave', label: 'Leave & attendance', icon: 'calendar' },
+    { key: 'payroll', label: 'Payroll', icon: 'rupee' },
+    { key: 'expenses', label: 'Expenses', icon: 'receipt' },
+    { key: 'compliance', label: 'Compliance', icon: 'landmark' },
+    { key: 'docs', label: 'Documents', icon: 'folder' }
+  ] });
+
+  var conversation = h('div', { className: 'col' },
+    h(D.Brief, { date: 'Tuesday, 13 October', greeting: 'Good morning, Abhijeet',
+      summary: h(React.Fragment, null, 'Overnight I closed 23 tasks across payroll, leave and onboarding. ', h('strong', null, '3 things need you'), ' — the PF return is due in 2 days.'),
+      stats: [{ value: 3, label: 'Need you', tone: 'warning' }, { value: 2, label: 'Running now', tone: 'brand' }, { value: 23, label: 'Done since yesterday' }] }),
+    h('div', { className: 'divider' }, 'Today'),
+    h(D.Message, { from: 'user', time: '9:41 am' }, 'Is October payroll ready? Anything unusual?'),
+    h(D.Message, { domain: 'Payroll', time: '9:42 am' },
+      h('p', null, 'Computed and waiting for you. Net pay is ', h('strong', null, '₹12,48,600'), ' — ₹38,200 more than September, almost all from Priya’s revision and Arjun’s 3 days of loss-of-pay.'),
+      h(D.Receipt, { duration: '4 min', writeClass: 'guarded', steps: [1, 2, 3, 4, 5].map(function (i) { return { text: 'step ' + i }; }) })),
+    h(D.Thinking, { label: 'Onboarding is preparing Kavya’s first day…', steps: ['Laptop request sent to IT', 'Drafting the welcome email'] }));
+
+  var main = h('div', { className: 'main' },
+    h('div', { className: 'scroll' }, conversation),
+    h('div', { className: 'dock' }, h(D.Composer, { scope: 'All of HR', footnote: 'Daydor asks before anything irreversible — money, filings or access.' })));
+
+  var rail = h('aside', { className: 'rail', 'aria-label': 'Decisions and activity' },
+    h('section', null,
+      h('h2', null, h('span', null, 'Needs you'), h('span', null, '3')),
+      h(D.DecisionCard, { compact: true, selected: true, domain: 'Compliance', title: 'File the October PF return', writeClass: 'irreversible', deadline: { daysLeft: 2, date: '15 Nov' } }),
+      h(D.DecisionCard, { compact: true, domain: 'Payroll', title: 'Approve October payroll', writeClass: 'irreversible', deadline: { daysLeft: 5 } }),
+      h(D.DecisionCard, { compact: true, domain: 'Headcount', title: 'You’re about to cross 10 people — register for ESI', deadline: { daysLeft: 12 } })),
+    h('section', null,
+      h('h2', null, h('span', null, 'Running now'), h('span', null, '2')),
+      h(D.RunRow, { state: 'running', title: 'Preparing Kavya’s first day', domain: 'Onboarding', meta: 'step 2 of 4', progress: 50 }),
+      h(D.RunRow, { state: 'waiting', title: 'Waiting on Rohit’s bank proof', domain: 'Core HR', meta: 'since yesterday' })),
+    h('section', null,
+      h('h2', null, h('span', null, 'Done today'), h('span', null, '23')),
+      h(D.RunRow, { state: 'done', title: 'Approved 4 leave requests within policy', domain: 'Leave', meta: '8:50 am' }),
+      h(D.RunRow, { state: 'done', title: 'Sent 14 payslips', domain: 'Payroll', meta: '8:30 am' }),
+      h('div', { className: 'more' }, '21 more')));
+
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { className: 'home' }, sidebar, h('div', { className: 'body' }, main, rail)));
+</script>
+</body>
+</html>

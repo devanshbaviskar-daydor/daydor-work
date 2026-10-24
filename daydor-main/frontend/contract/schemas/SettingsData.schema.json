@@ -1,0 +1,126 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "workspace": {
+      "$ref": "#/definitions/WorkspaceSettings"
+    },
+    "profile": {
+      "$ref": "#/definitions/ProfileSettings"
+    }
+  },
+  "required": [
+    "workspace",
+    "profile"
+  ],
+  "additionalProperties": false,
+  "definitions": {
+    "WorkspaceSettings": {
+      "type": "object",
+      "properties": {
+        "legalEntityName": {
+          "type": "string"
+        },
+        "registeredAddress": {
+          "type": "string"
+        },
+        "pan": {
+          "type": "string"
+        },
+        "tan": {
+          "type": "string"
+        },
+        "gstin": {
+          "type": "string"
+        },
+        "workLocations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "financialYearStart": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "legalEntityName",
+        "registeredAddress",
+        "pan",
+        "tan",
+        "gstin",
+        "workLocations",
+        "financialYearStart"
+      ],
+      "additionalProperties": false
+    },
+    "ProfileSettings": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "notifications": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NotificationPreference"
+          }
+        }
+      },
+      "required": [
+        "name",
+        "email",
+        "role",
+        "notifications"
+      ],
+      "additionalProperties": false
+    },
+    "NotificationPreference": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "channels": {
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "boolean"
+            },
+            "inApp": {
+              "type": "boolean"
+            },
+            "whatsapp": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "email",
+            "inApp",
+            "whatsapp"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "key",
+        "label",
+        "description",
+        "channels"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../bundle.css">
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+<meta charset="utf-8"><title>DocumentPage — preview</title>
+<style>
+  .letter p + p { margin-top: 12px; }
+  .sig { margin-top: 28px; }
+  .sig b { display: block; font-weight: 600; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  var D = window.Daydor, h = React.createElement;
+  var A = function (v) { return h(D.Amount, { value: v }); };
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { style: { padding: 24, display: 'flex', justifyContent: 'center' } },
+    h(D.DocumentPage, { theme: 'client', company: 'Acme Labs Pvt Ltd', address: '42, 3rd Cross, Indiranagar, Bengaluru 560038', title: 'Offer of employment', meta: '27 Oct 2026 · Ref ACM/OFF/2026/014',
+      footer: 'Please sign and return within 7 days. Acme Labs Pvt Ltd · CIN U72900KA2023PTC000000' },
+      h('div', { className: 'letter' },
+        h('p', null, 'Dear Kavya,'),
+        h('p', null, 'We’re delighted to offer you the role of Backend engineer at Acme Labs, starting Monday, 3 November 2026, based in Bengaluru and reporting to Abhijeet Singh.'),
+        h('p', null, 'Your total annual compensation is ', h('strong', null, '₹8,64,000'), ' (₹72,000 a month), structured as below. You’ll be on probation for three months, after which the notice period is 30 days on either side.')),
+      h('section', null, h('h3', { className: 'dd-doc-h' }, 'Annexure A — compensation (annual)'),
+        h('table', { className: 'dd-doc-table' }, h('tbody', null,
+          [['Basic', 432000], ['House rent allowance', 172800], ['Special allowance', 216000], ['Employer PF', 21600], ['Leave travel allowance', 21600]].map(function (r, i) { return h('tr', { key: i }, h('td', null, r[0]), h('td', { className: 'dd-num' }, A(r[1]))); }),
+          h('tr', { className: 'dd-doc-total' }, h('td', null, 'Cost to company'), h('td', { className: 'dd-num' }, A(864000)))))),
+      h('div', { className: 'letter' },
+        h('p', null, 'Basic pay is 50% of CTC, in line with the wage definition under the Code on Wages, 2019.'),
+        h('div', { className: 'sig' }, h('p', null, 'Warm regards,'), h('p', null, h('b', null, 'Abhijeet Singh'), 'Founder, Acme Labs'))))));
+</script>
+</body>
+</html>

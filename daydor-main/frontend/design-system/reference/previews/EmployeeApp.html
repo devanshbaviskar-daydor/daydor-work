@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../bundle.css">
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+
+<meta charset="utf-8">
+<title>EmployeeApp — preview</title>
+<style>
+  .stage { display: flex; gap: 32px; justify-content: center; padding: 28px 24px; background: var(--canvas); }
+  .phone { position: relative; width: 360px; height: 700px; border: 1px solid var(--line); border-radius: 28px; overflow: hidden; background: var(--canvas); box-shadow: var(--shadow-md); display: flex; flex-direction: column; color: var(--ink); }
+  .cap { text-align: center; font-size: 12px; color: var(--ink-muted); margin-top: 12px; max-width: 360px; }
+  .top { display: flex; align-items: center; gap: 10px; height: 52px; padding: 0 16px; border-bottom: 1px solid var(--line); flex: none; }
+  .top b { font-weight: 600; font-size: 15px; letter-spacing: -0.02em; }
+  .top .back { color: var(--ink-muted); display: inline-flex; transform: rotate(180deg); }
+  .client-logo { width: 28px; height: 28px; border-radius: var(--radius-md); background: var(--action); color: var(--on-action); display: inline-flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px; }
+  .feed { flex: 1; overflow: hidden; padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 14px 16px; }
+  .card-h { display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 500; color: var(--ink-muted); margin-bottom: 8px; }
+  .big { font-size: 24px; line-height: 30px; font-weight: 500; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+  .small { font-size: 12px; line-height: 17px; color: var(--ink-muted); }
+  .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+  .sec { font-size: 12px; font-weight: 500; color: var(--ink-muted); margin: 6px 0 -6px; }
+  .phone .dd-stats { gap: 12px 24px; }
+  .phone .dd-stat dd { font-size: 20px; line-height: 26px; }
+  .phone .dd-fact { padding: 8px 0; font-size: 13px; }
+  .phone .dd-msg-body, .phone .dd-msg-bubble { font-size: 14px; line-height: 22px; }
+
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  var D = window.Daydor, h = React.createElement;
+  function receiptPhoto(lines, rotate) {
+    return h('div', { 'data-theme': 'light', style: { width: '74%', transform: 'rotate(' + (rotate || -2) + 'deg)', background: 'var(--surface)', color: 'var(--ink)', padding: '14px 12px 18px', fontFamily: 'var(--font-mono)', fontSize: 9.5, lineHeight: '13px', boxShadow: 'var(--shadow-lg)' } },
+      lines.map(function (l, i) { return h('div', { key: i, style: { display: 'flex', justifyContent: l[1] != null ? 'space-between' : 'center', fontWeight: l[2] ? 600 : 400, marginTop: l[3] ? 6 : 0 } }, h('span', null, l[0]), l[1] != null ? h('span', null, l[1]) : null); }));
+  }
+  var BLUE_TOKAI = [['BLUE TOKAI COFFEE ROASTERS', null, true], ['100 Ft Rd, Indiranagar'], ['GSTIN 29AAJCB12?4F1Z5'], ['14/10/2026  13:42', null, false, true], ['Cappuccino x2', '480.00', false, true], ['Cold brew x2', '520.00'], ['Croissant x1', '124.00'], ['CGST 2.5%', '28.10'], ['SGST 2.5%', '27.90'], ['TOTAL', '1,180.00', true, true], ['UPI · paid'], ['Thank you!', null, false, true]];
+  var TOIT = [['TOIT BREWPUB', null, true], ['Indiranagar, Bengaluru'], ['GSTIN 29AAFCT8812K1Z2'], ['09/10/2026  21:58', null, false, true], ['Food', '5,240.00', false, true], ['Beverages', '2,240.00'], ['CGST 2.5%', '187.00'], ['SGST 2.5%', '187.00'], ['Service chg', '6.00'], ['TOTAL', '7,860.00', true, true], ['Card ···· 2201']];
+
+  function phone(caption, top, body, tabs, theme) {
+    /* client themes are light-based: pin light underneath so a dark app theme can't mix with a light client colour */
+    return h('div', null, h('div', { 'data-theme': 'light', style: { borderRadius: 28 } }, h('div', { className: 'phone', 'data-theme': theme || 'client' }, top, h('div', { className: 'feed' }, body), tabs || null)), h('div', { className: 'cap' }, caption));
+  }
+  function brandTop(title) { return h('div', { className: 'top' }, h('span', { className: 'client-logo' }, 'AL'), h('b', null, title || 'Acme Labs'), h('span', { style: { flex: 1 } }), h(D.Avatar, { kind: 'person', name: 'Priya Raghavan', size: 28 })); }
+  function backTop(title) { return h('div', { className: 'top' }, h('span', { className: 'back' }, h(D.Icon, { name: 'chevronRight', size: 18 })), h('b', null, title)); }
+  function tabs(active) { return h(D.TabBar, { items: [{ label: 'Home', icon: 'home' }, { label: 'Pay', icon: 'rupee' }, { label: 'Ask', icon: 'message', primary: true }, { label: 'Leave', icon: 'calendar' }, { label: 'Me', icon: 'user' }].map(function (t) { return Object.assign(t, { active: t.label === active }); }) }); }
+
+  var home = phone('Home · payslip, balances, benefits', brandTop(), [
+    h('div', { key: 'g', style: { fontSize: 22, lineHeight: '28px', fontWeight: 500, letterSpacing: '-0.02em' } }, 'Hi Priya'),
+    h('div', { key: 'p', className: 'card' }, h('div', { className: 'card-h' }, h('span', null, 'September pay'), h(D.Badge, { status: 'paid' })),
+      h('div', { className: 'big' }, h(D.Amount, { value: 94150 })), h('div', { className: 'small' }, 'Paid 30 Sep to HDFC ···· 4821 · October pay on 31 Oct'),
+      h('div', { style: { marginTop: 10 } }, h(D.Button, { size: 'sm', icon: 'file' }, 'View payslip'))),
+    h('div', { key: 'l', className: 'card' }, h('div', { className: 'card-h' }, h('span', null, 'Leave left this year')),
+      h(D.StatRow, { items: [{ label: 'Earned', value: '5.5' }, { label: 'Casual', value: '4' }, { label: 'Sick', value: '6' }] })),
+    h('div', { key: 'b', className: 'card' }, h('div', { className: 'card-h' }, h('span', null, 'My benefits')),
+      h(D.FactList, { items: [{ label: 'Health (GMC)', value: '₹5 L · you + 2' }, { label: 'Accident (GPA)', value: '3× CTC' }, { label: 'Top-up', value: '₹450 / mo from pay' }] })),
+    h('div', { key: 'c', className: 'chips' }, h('button', { className: 'dd-suggestion' }, 'Request leave'), h('button', { className: 'dd-suggestion' }, 'Claim an expense'))
+  ], tabs('Home'));
+
+  var leave = phone('Leave · drafted in chat, then tracked', brandTop(), [
+    h(D.Message, { key: 'u', from: 'user', time: '10:02 am' }, 'I need next Tuesday and Wednesday off'),
+    h(D.Message, { key: 'd', time: 'just now' },
+      h('p', null, 'Here\u2019s the request — check it and send:'),
+      h('div', { className: 'card', style: { marginTop: 8 } },
+        h(D.FactList, { items: [{ label: 'Type', value: 'Casual leave' }, { label: 'Dates', value: '20–21 Oct · 2 days' }, { label: 'Left after', value: '2 casual days' }] }),
+        h('div', { style: { display: 'flex', gap: 8, marginTop: 12 } }, h(D.Button, { size: 'sm', variant: 'primary' }, 'Send to Rohit'), h(D.Button, { size: 'sm', variant: 'ghost' }, 'Change')))),
+    h('div', { key: 's', className: 'card' }, h('div', { className: 'card-h' }, h('span', null, 'Earlier request · 3–7 Nov')),
+      h(D.Stepper, { orientation: 'vertical', steps: [{ label: 'Sent', state: 'done', meta: 'Mon 12 Oct' }, { label: 'With Rohit, your manager', state: 'current', meta: 'He usually replies within a day' }, { label: 'Decided', state: 'upcoming' }] }))
+  ], tabs('Leave'));
+
+  var me = phone('My details · three kinds of change', brandTop('My details'), [
+    h('div', { key: 's1', className: 'sec' }, 'Change any time'),
+    h('div', { key: 'a' }, h(D.ProfileField, { tier: 'direct', label: 'Home address', value: '12, 4th Main, HSR Layout, Bengaluru' }),
+      h(D.ProfileField, { tier: 'direct', label: 'Emergency contact', value: 'Arjun Raghavan · +91 99••• ••118' }),
+      h(D.ProfileField, { tier: 'direct', label: 'Tax regime', value: 'New regime' })),
+    h('div', { key: 's2', className: 'sec' }, 'Checked by HR before it changes'),
+    h('div', { key: 'b' }, h(D.ProfileField, { tier: 'review', label: 'PAN', value: 'ABCPR····F', pending: 'Correction sent 12 Oct' }),
+      h(D.ProfileField, { tier: 'review', label: 'Aadhaar', value: '•••• •••• 4410' })),
+    h('div', { key: 's3', className: 'sec' }, 'Protected'),
+    h('div', { key: 'c' }, h(D.ProfileField, { tier: 'gated', label: 'Salary bank account', value: 'HDFC ···· 4821' }))
+  ], tabs('Me'));
+
+  var otp = phone('Bank change · a one-time code before anything changes', backTop('Change bank account'), [
+    h(D.VerifyCode, { key: 'v', title: 'Confirm your new bank account', destination: '+91 98••• ••210', defaultValue: '73', resendIn: '0:42',
+      summary: h('div', null, h(D.FactList, { items: [{ label: 'New account', value: 'ICICI ···· 0917' }, { label: 'IFSC', value: 'ICIC0001234', mono: true }] }),
+        h('p', { className: 'small', style: { marginTop: 10 } }, 'Your next salary (31 Oct) goes here. We\u2019ll also tell you by email and on your current number.')),
+      footer: [h(D.Button, { key: 'c', variant: 'primary', icon: 'lock', disabled: true }, 'Confirm change'), h(D.Button, { key: 'x', variant: 'ghost' }, 'Cancel')] })
+  ]);
+
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { className: 'stage' }, home, leave, me, otp));
+</script>
+</body>
+</html>

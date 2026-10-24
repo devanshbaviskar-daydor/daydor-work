@@ -1,0 +1,179 @@
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap");
+@import "../design-system/tokens/tokens.css";
+@import "tailwindcss";
+
+/*
+ * Tailwind v4: expose Daydor's CSS variables as Tailwind theme values
+ * (design-system/tailwind/README.md "Tailwind v4" section). Colours stay
+ * live CSS variables so theme switching via [data-theme] keeps working.
+ */
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-sunken: var(--surface-sunken);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-on-ink: var(--on-ink);
+  --color-brand: var(--brand);
+  --color-brand-strong: var(--brand-strong);
+  --color-brand-soft: var(--brand-soft);
+  --color-on-brand: var(--on-brand);
+  --color-action: var(--action);
+  --color-action-strong: var(--action-strong);
+  --color-action-soft: var(--action-soft);
+  --color-on-action: var(--on-action);
+  --color-link: var(--link);
+  --color-focus: var(--focus);
+  --color-irreversible: var(--irreversible);
+  --color-irreversible-soft: var(--irreversible-soft);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-on-danger: var(--on-danger);
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
+  --color-photo-ground: var(--photo-ground);
+
+  --spacing-1: var(--space-1);
+  --spacing-2: var(--space-2);
+  --spacing-3: var(--space-3);
+  --spacing-4: var(--space-4);
+  --spacing-5: var(--space-5);
+  --spacing-6: var(--space-6);
+  --spacing-8: var(--space-8);
+  --spacing-12: var(--space-12);
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+  --radius-full: var(--radius-full);
+
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+
+  --text-display: 28px;
+  --text-display--line-height: 34px;
+  --text-display--font-weight: 500;
+  --text-display--letter-spacing: -0.025em;
+  --text-title-lg: 20px;
+  --text-title-lg--line-height: 28px;
+  --text-title-lg--font-weight: 500;
+  --text-title-lg--letter-spacing: -0.015em;
+  --text-title: 15px;
+  --text-title--line-height: 22px;
+  --text-title--font-weight: 600;
+  --text-title--letter-spacing: -0.005em;
+  --text-reading: 15px;
+  --text-reading--line-height: 24px;
+  --text-body: 14px;
+  --text-body--line-height: 21px;
+  --text-small: 13px;
+  --text-small--line-height: 19px;
+  --text-label: 13px;
+  --text-label--line-height: 18px;
+  --text-label--font-weight: 500;
+  --text-eyebrow: 12px;
+  --text-eyebrow--line-height: 16px;
+  --text-eyebrow--font-weight: 500;
+  --text-eyebrow--letter-spacing: 0.01em;
+  --text-figure: 24px;
+  --text-figure--line-height: 30px;
+  --text-figure--font-weight: 500;
+  --text-figure--letter-spacing: -0.02em;
+  --text-code: 12px;
+  --text-code--line-height: 18px;
+
+  --width-rail: var(--rail-width);
+  --max-width-conversation: var(--conversation-max);
+  --max-width-form: var(--form-max);
+
+  --height-control-sm: var(--control-sm);
+  --height-control-md: var(--control-md);
+  --height-control-lg: var(--control-lg);
+}
+
+/* shadcn/ui variables mapped onto Daydor tokens (re-declared per theme so themes switch together). */
+:root, [data-theme] {
+  --background: var(--canvas);
+  --foreground: var(--ink);
+  --card: var(--surface);
+  --card-foreground: var(--ink);
+  --popover: var(--surface);
+  --popover-foreground: var(--ink);
+  --primary: var(--action);
+  --primary-foreground: var(--on-action);
+  --secondary: var(--surface-sunken);
+  --secondary-foreground: var(--ink);
+  --muted: var(--surface-sunken);
+  --muted-foreground: var(--ink-muted);
+  --accent: var(--surface-sunken);
+  --accent-foreground: var(--ink);
+  --destructive: var(--danger);
+  --border: var(--line);
+  --input: var(--line-strong);
+  --ring: var(--focus);
+  --radius: 8px;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 21px;
+  background: var(--canvas);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+*:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@keyframes dd-pulse {
+  0% { box-shadow: 0 0 0 0 var(--brand); }
+  70% { box-shadow: 0 0 0 6px rgba(0, 0, 0, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); }
+}
+
+@keyframes dd-rise {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes dd-shimmer {
+  from { background-position: 100% 0; }
+  to { background-position: -100% 0; }
+}
+
+.dd-shimmer-text {
+  background-image: linear-gradient(
+    90deg,
+    var(--ink-muted) 40%,
+    var(--ink) 50%,
+    var(--ink-muted) 60%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: dd-shimmer 2.2s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dd-shimmer-text { animation: none; -webkit-text-fill-color: var(--ink-muted); }
+}

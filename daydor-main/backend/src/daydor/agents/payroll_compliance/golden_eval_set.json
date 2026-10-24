@@ -1,0 +1,57 @@
+{
+  "worker": "filing_preparation",
+  "description": "DRAFT golden evaluation set, first-pass alongside prompt.md. Small, representative cases only — expand and refine once the real LangGraph build and prompt are reviewed. Revisit whenever prompt.md changes.",
+  "cases": [
+    {
+      "id": "pf_ecr_complete_input",
+      "input": {
+        "scheme": "PF",
+        "period": "2026-05",
+        "due_date": "2026-06-15",
+        "establishment_code": "DLCPM0012345000",
+        "employee_contributions": [
+          {"employee_id": "emp-1", "employer_share": 1800, "employee_share": 1800},
+          {"employee_id": "emp-2", "employer_share": 1550, "employee_share": 1550}
+        ]
+      },
+      "expected_output": {
+        "marked_as_draft": true,
+        "no_missing_field_flags": true,
+        "contribution_figures_unchanged_from_input": true
+      }
+    },
+    {
+      "id": "esi_missing_establishment_code",
+      "input": {
+        "scheme": "ESI",
+        "period": "2026-06",
+        "due_date": "2026-07-15",
+        "establishment_code": null,
+        "employee_contributions": [
+          {"employee_id": "emp-3", "employer_share": 325, "employee_share": 75}
+        ]
+      },
+      "expected_output": {
+        "flags_missing_registration_identifier": true,
+        "marked_as_draft": true
+      }
+    },
+    {
+      "id": "pt_never_recomputes_figures",
+      "input": {
+        "scheme": "PT",
+        "period": "2026-06",
+        "due_date": "2026-07-20",
+        "establishment_code": "PT-KA-998877",
+        "employee_contributions": [
+          {"employee_id": "emp-4", "employer_share": 0, "employee_share": 200}
+        ]
+      },
+      "expected_output": {
+        "contribution_figures_unchanged_from_input": true,
+        "marked_as_draft": true,
+        "not_marked_submitted_or_final": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,227 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "legalEntityName": {
+      "type": "string"
+    },
+    "stats": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ComplianceStat"
+      }
+    },
+    "obligations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ThresholdObligation"
+      }
+    },
+    "filings": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/FilingRecord"
+      }
+    }
+  },
+  "required": [
+    "legalEntityName",
+    "stats",
+    "obligations",
+    "filings"
+  ],
+  "additionalProperties": false,
+  "definitions": {
+    "ComplianceStat": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        },
+        "delta": {
+          "type": "string"
+        },
+        "deltaTone": {
+          "type": "string",
+          "enum": [
+            "warning",
+            "success"
+          ]
+        }
+      },
+      "required": [
+        "label",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "ThresholdObligation": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "legalEntityId": {
+          "type": "string"
+        },
+        "scheme": {
+          "$ref": "#/definitions/StatutoryScheme"
+        },
+        "headcountAtCheck": {
+          "type": "number"
+        },
+        "threshold": {
+          "type": "number"
+        },
+        "applicable": {
+          "type": "boolean"
+        },
+        "crossedAt": {
+          "type": "string"
+        },
+        "registrationDeadline": {
+          "type": "string"
+        },
+        "approvalRequestId": {
+          "type": "string"
+        },
+        "checklist": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ChecklistItem"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "legalEntityId",
+        "scheme",
+        "headcountAtCheck",
+        "threshold",
+        "applicable",
+        "checklist"
+      ],
+      "additionalProperties": false,
+      "description": "Mirrors Daydor-Build's `threshold_obligation` table (domain `hr`) field names — daydor's own differentiator domain; the upstream table is thin (no checklist concept), so the checklist below is daydor's own addition on top of it."
+    },
+    "StatutoryScheme": {
+      "type": "string",
+      "enum": [
+        "ESI",
+        "Gratuity",
+        "POSH",
+        "EPF"
+      ]
+    },
+    "ChecklistItem": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/definitions/ChecklistItemStatus"
+        },
+        "dueDate": {
+          "type": "string"
+        },
+        "completedAt": {
+          "type": "string"
+        },
+        "blocking": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "status"
+      ],
+      "additionalProperties": false,
+      "description": "Pattern follows Daydor-Build's own generic `checklist_task` shape (owner_domain/title/status/due_at/completed_at/blocking) — the closest upstream analog for a \"drafted items awaiting completion\" list, since Daydor-Build's `threshold_obligation` table has no checklist concept at all."
+    },
+    "ChecklistItemStatus": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "done"
+      ]
+    },
+    "FilingRecord": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "legalEntityId": {
+          "type": "string"
+        },
+        "scheme": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/StatutoryScheme"
+            },
+            {
+              "type": "string",
+              "const": "PT"
+            },
+            {
+              "type": "string",
+              "const": "TDS"
+            }
+          ]
+        },
+        "period": {
+          "type": "string"
+        },
+        "filedOn": {
+          "type": "string"
+        },
+        "acknowledgementNo": {
+          "type": "string"
+        },
+        "documentId": {
+          "type": "string"
+        },
+        "authority": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "number"
+        },
+        "dueDate": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/definitions/FilingStatus"
+        }
+      },
+      "required": [
+        "id",
+        "legalEntityId",
+        "scheme",
+        "period",
+        "authority",
+        "dueDate",
+        "status"
+      ],
+      "additionalProperties": false,
+      "description": "Mirrors Daydor-Build's `filing_record` table (domain `pay`) field names."
+    },
+    "FilingStatus": {
+      "type": "string",
+      "enum": [
+        "overdue",
+        "needs-you",
+        "upcoming",
+        "filed"
+      ]
+    }
+  }
+}

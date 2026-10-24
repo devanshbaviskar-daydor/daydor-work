@@ -1,0 +1,122 @@
+Daydor design system — file manifest
+
+106 files. Required core files first:
+
+  design-system/README.md  (19348 bytes)
+  design-system/CLAUDE.md.snippet  (1887 bytes)
+  design-system/tokens/tokens.json  (14585 bytes)
+  design-system/tokens/tokens.css  (3896 bytes)
+  design-system/tailwind/daydor.preset.js  (4689 bytes)
+  design-system/tailwind/globals.css  (1516 bytes)
+  design-system/tailwind/README.md  (756 bytes)
+  design-system/reference/bundle.js  (56723 bytes)
+  design-system/reference/bundle.css  (53838 bytes)
+  design-system/reference/index.d.ts  (15878 bytes)
+  design-system/reference/README.md  (709 bytes)
+
+All files:
+  design-system/CLAUDE.md.snippet
+  design-system/README.md
+  design-system/components/Amount/README.md
+  design-system/components/AttendanceGrid/README.md
+  design-system/components/Avatar/README.md
+  design-system/components/Badge/README.md
+  design-system/components/Banner/README.md
+  design-system/components/Brief/README.md
+  design-system/components/Button/README.md
+  design-system/components/Callout/README.md
+  design-system/components/CandidateCard/README.md
+  design-system/components/ChoiceCard/README.md
+  design-system/components/CommandBar/README.md
+  design-system/components/Composer/README.md
+  design-system/components/Deadline/README.md
+  design-system/components/DecisionCard/README.md
+  design-system/components/Dialog/README.md
+  design-system/components/DocumentPage/README.md
+  design-system/components/EmptyState/README.md
+  design-system/components/FactList/README.md
+  design-system/components/Input/README.md
+  design-system/components/Message/README.md
+  design-system/components/ObligationRow/README.md
+  design-system/components/PageHeader/README.md
+  design-system/components/Payslip/README.md
+  design-system/components/ProfileField/README.md
+  design-system/components/Receipt/README.md
+  design-system/components/ReceiptReview/README.md
+  design-system/components/RunRow/README.md
+  design-system/components/Select/README.md
+  design-system/components/Sidebar/README.md
+  design-system/components/SourceChip/README.md
+  design-system/components/StageBoard/README.md
+  design-system/components/StatRow/README.md
+  design-system/components/Stepper/README.md
+  design-system/components/TabBar/README.md
+  design-system/components/Table/README.md
+  design-system/components/Tabs/README.md
+  design-system/components/Thinking/README.md
+  design-system/components/Timeline/README.md
+  design-system/components/VerifyCode/README.md
+  design-system/components/WriteClass/README.md
+  design-system/reference/README.md
+  design-system/reference/bundle.css
+  design-system/reference/bundle.js
+  design-system/reference/index.d.ts
+  design-system/reference/previews/Amount.html
+  design-system/reference/previews/AttendanceGrid.html
+  design-system/reference/previews/Avatar.html
+  design-system/reference/previews/Badge.html
+  design-system/reference/previews/Banner.html
+  design-system/reference/previews/Benefits.html
+  design-system/reference/previews/Brief.html
+  design-system/reference/previews/Button.html
+  design-system/reference/previews/Callout.html
+  design-system/reference/previews/CandidateCard.html
+  design-system/reference/previews/ChoiceCard.html
+  design-system/reference/previews/CommandBar.html
+  design-system/reference/previews/Compliance.html
+  design-system/reference/previews/Composer.html
+  design-system/reference/previews/Deadline.html
+  design-system/reference/previews/DecisionCard.html
+  design-system/reference/previews/Dialog.html
+  design-system/reference/previews/DocumentPage.html
+  design-system/reference/previews/EmployeeApp.html
+  design-system/reference/previews/EmptyState.html
+  design-system/reference/previews/ExpenseClaim.html
+  design-system/reference/previews/Expenses.html
+  design-system/reference/previews/FactList.html
+  design-system/reference/previews/Hiring.html
+  design-system/reference/previews/Home.html
+  design-system/reference/previews/Input.html
+  design-system/reference/previews/Leave.html
+  design-system/reference/previews/Message.html
+  design-system/reference/previews/Notifications.html
+  design-system/reference/previews/ObligationRow.html
+  design-system/reference/previews/Onboarding.html
+  design-system/reference/previews/PageHeader.html
+  design-system/reference/previews/PayrollRun.html
+  design-system/reference/previews/Payslip.html
+  design-system/reference/previews/Person.html
+  design-system/reference/previews/Phone.html
+  design-system/reference/previews/ProfileField.html
+  design-system/reference/previews/Receipt.html
+  design-system/reference/previews/ReceiptReview.html
+  design-system/reference/previews/RunRow.html
+  design-system/reference/previews/Select.html
+  design-system/reference/previews/Sidebar.html
+  design-system/reference/previews/SourceChip.html
+  design-system/reference/previews/StageBoard.html
+  design-system/reference/previews/StatRow.html
+  design-system/reference/previews/States.html
+  design-system/reference/previews/Stepper.html
+  design-system/reference/previews/TabBar.html
+  design-system/reference/previews/Table.html
+  design-system/reference/previews/Tabs.html
+  design-system/reference/previews/Thinking.html
+  design-system/reference/previews/Timeline.html
+  design-system/reference/previews/VerifyCode.html
+  design-system/reference/previews/WriteClass.html
+  design-system/tailwind/README.md
+  design-system/tailwind/daydor.preset.js
+  design-system/tailwind/globals.css
+  design-system/tokens/tokens.css
+  design-system/tokens/tokens.json

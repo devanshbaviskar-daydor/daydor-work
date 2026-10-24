@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../bundle.css">
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+
+<meta charset="utf-8">
+<title>Leave — preview</title>
+<style>
+  .shell { display: grid; grid-template-columns: 232px 1fr; height: 960px; background: var(--canvas); }
+  .page { overflow: hidden; padding: var(--space-8) var(--space-12); }
+  .page-inner { max-width: 1080px; margin: 0 auto; display: flex; flex-direction: column; gap: var(--space-6); }
+  .panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); }
+  .panel-pad { padding: var(--space-5) var(--space-6); }
+  .panel-title { margin: 0 0 var(--space-4); font-size: 15px; line-height: 22px; font-weight: 600; }
+  .grid2 { display: grid; grid-template-columns: 1.3fr 1fr; gap: var(--space-6); align-items: start; }
+  .col { display: flex; flex-direction: column; gap: var(--space-3); min-width: 0; }
+  .sec-label { font-size: 12px; font-weight: 500; color: var(--ink-muted); margin: 0 0 var(--space-1); }
+  .muted { font-size: 12px; line-height: 17px; color: var(--ink-muted); margin: 0; }
+
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  var D = window.Daydor, h = React.createElement;
+  function receiptPhoto(lines, rotate) {
+    return h('div', { 'data-theme': 'light', style: { width: '74%', transform: 'rotate(' + (rotate || -2) + 'deg)', background: 'var(--surface)', color: 'var(--ink)', padding: '14px 12px 18px', fontFamily: 'var(--font-mono)', fontSize: 9.5, lineHeight: '13px', boxShadow: 'var(--shadow-lg)' } },
+      lines.map(function (l, i) { return h('div', { key: i, style: { display: 'flex', justifyContent: l[1] != null ? 'space-between' : 'center', fontWeight: l[2] ? 600 : 400, marginTop: l[3] ? 6 : 0 } }, h('span', null, l[0]), l[1] != null ? h('span', null, l[1]) : null); }));
+  }
+  var BLUE_TOKAI = [['BLUE TOKAI COFFEE ROASTERS', null, true], ['100 Ft Rd, Indiranagar'], ['GSTIN 29AAJCB12?4F1Z5'], ['14/10/2026  13:42', null, false, true], ['Cappuccino x2', '480.00', false, true], ['Cold brew x2', '520.00'], ['Croissant x1', '124.00'], ['CGST 2.5%', '28.10'], ['SGST 2.5%', '27.90'], ['TOTAL', '1,180.00', true, true], ['UPI · paid'], ['Thank you!', null, false, true]];
+  var TOIT = [['TOIT BREWPUB', null, true], ['Indiranagar, Bengaluru'], ['GSTIN 29AAFCT8812K1Z2'], ['09/10/2026  21:58', null, false, true], ['Food', '5,240.00', false, true], ['Beverages', '2,240.00'], ['CGST 2.5%', '187.00'], ['SGST 2.5%', '187.00'], ['Service chg', '6.00'], ['TOTAL', '7,860.00', true, true], ['Card ···· 2201']];
+
+  var nav = [
+    { key: 'home', label: 'Home', icon: 'home', count: 3, countTone: 'warning' },
+    { key: 'people', label: 'People', icon: 'users', count: 14 },
+    { key: 'hiring', label: 'Hiring', icon: 'briefcase', count: 2 },
+    { key: 'leave', label: 'Leave & attendance', icon: 'calendar' },
+    { key: 'payroll', label: 'Payroll', icon: 'rupee' },
+    { key: 'expenses', label: 'Expenses', icon: 'receipt' },
+    { key: 'compliance', label: 'Compliance', icon: 'landmark' },
+    { key: 'docs', label: 'Documents', icon: 'folder' }
+  ].map(function (n) { return Object.assign(n, { active: n.key === 'leave' }); });
+  var footerItems = [{ key: 'settings', label: 'Settings', icon: 'settings', active: 'leave' === 'settings' }];
+  var sidebar = h(D.Sidebar, { workspace: 'Acme Labs', user: { name: 'Abhijeet Singh', role: 'Founder' }, items: nav, footerItems: footerItems });
+
+  var content = [
+    h(D.PageHeader, { key: 'h', eyebrow: ['Leave & attendance', 'Week of 12 Oct'], title: 'Leave & attendance', description: '14 people · Karnataka holidays 2026 · 12 casual, 6 sick and 15 earned days a year',
+      actions: [h(D.Button, { key: 'p', icon: 'file' }, 'Leave policy')],
+      tabs: [{ label: 'This week', active: true }, { label: 'Calendar' }, { label: 'Balances' }, { label: 'Requests', count: 3 }] }),
+    h('div', { key: 'st', className: 'panel panel-pad' }, h(D.StatRow, { items: [
+      { label: 'In today', value: '11 of 14' }, { label: 'On leave today', value: '2', delta: 'Sneha, Rahul' },
+      { label: 'Absent, not on leave', value: '1', delta: 'Arjun — no punch by 10 am', deltaTone: 'warning' }, { label: 'Requests with managers', value: '3', delta: 'none overdue' }] })),
+    h('div', { key: 'g', className: 'grid2' },
+      h('div', { className: 'panel panel-pad' },
+        h('h2', { className: 'panel-title' }, 'This week'),
+        h(D.AttendanceGrid, {
+          days: [{ label: 'Mon', sub: '12' }, { label: 'Tue', sub: '13', today: true }, { label: 'Wed', sub: '14' }, { label: 'Thu', sub: '15' }, { label: 'Fri', sub: '16' }, { label: 'Sat', sub: '17' }, { label: 'Sun', sub: '18' }],
+          people: [{ name: 'Priya Raghavan', marks: 'PP---OO' }, { name: 'Arjun Mehta', marks: 'PA---OO' }, { name: 'Sneha Kulkarni', marks: 'LLL--OO' }, { name: 'Rahul Verma', marks: 'HL---OO' },
+            { name: 'Rohit Verma', marks: 'PP---OO' }, { name: 'Meera Iyer', marks: 'PP-L-OO' }, { name: 'Kabir Sethi', marks: 'PP---OO' }] }),
+        h('p', { className: 'muted', style: { marginTop: 12 } }, '+ 7 more, all in today')),
+      h('div', { className: 'col' },
+        h('p', { className: 'sec-label' }, 'Waiting on you as manager'),
+        h(D.DecisionCard, { pace: 'routine', domain: 'Leave', gate: 'Manager approval', title: 'Arjun asks for casual leave, 20–21 Oct',
+          summary: 'Family function in Pune. Rahul is also out on the 21st.',
+          figures: [{ label: 'Casual leave left', value: '1 day', note: '1 day short — the second day would be unpaid' }],
+          approveLabel: 'Approve', reviewLabel: 'Approve 1 day only', note: 'Asked yesterday · no rush' }),
+        h('p', { className: 'sec-label', style: { marginTop: 8 } }, 'With other managers'),
+        h('div', { className: 'panel', style: { padding: 4 } },
+          h(D.DecisionCard, { compact: true, pace: 'routine', domain: 'Sick leave · Sneha', title: '15 Oct, 1 day', note: 'With Rohit · 4 h' }),
+          h(D.DecisionCard, { compact: true, pace: 'routine', domain: 'Earned leave · Meera', title: '15 Oct, 1 day', note: 'With Rohit · comes to you Thu if he hasn\u2019t decided' })),
+        h(D.DecisionCard, { state: 'approved', title: 'Kavya · earned leave 15–16 Oct', resolvedNote: 'Approved by Rohit · today' })))
+  ];
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { className: 'shell' }, sidebar, h('main', { className: 'page' }, h('div', { className: 'page-inner' }, content))));
+</script>
+</body>
+</html>

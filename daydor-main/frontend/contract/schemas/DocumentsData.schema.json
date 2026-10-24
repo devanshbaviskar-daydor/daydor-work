@@ -1,0 +1,82 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "documents": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Document"
+      }
+    }
+  },
+  "required": [
+    "documents"
+  ],
+  "additionalProperties": false,
+  "definitions": {
+    "Document": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "category": {
+          "$ref": "#/definitions/DocumentCategory"
+        },
+        "ownerEmployeeId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "relatedEntityType": {
+          "type": "string"
+        },
+        "relatedEntityId": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "retentionClass": {
+          "$ref": "#/definitions/RetentionClass",
+          "description": "Absent when the signed-in role may not read the retention policies."
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "category",
+        "ownerEmployeeId",
+        "relatedEntityType",
+        "relatedEntityId",
+        "createdAt"
+      ],
+      "additionalProperties": false
+    },
+    "DocumentCategory": {
+      "type": "string",
+      "enum": [
+        "payslip",
+        "filing",
+        "offer-letter",
+        "policy",
+        "employee-record",
+        "receipt"
+      ]
+    },
+    "RetentionClass": {
+      "type": "string",
+      "enum": [
+        "statutory-7y",
+        "statutory-8y",
+        "duration-of-employment",
+        "duration-plus-3y",
+        "indefinite"
+      ]
+    }
+  }
+}

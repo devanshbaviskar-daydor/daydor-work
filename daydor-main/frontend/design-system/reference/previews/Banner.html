@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../bundle.css">
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+<meta charset="utf-8"><title>Banner — preview</title></head>
+<body>
+<div id="root"></div>
+<script>
+  var D = window.Daydor, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { style: { padding: 20, display: 'flex', flexDirection: 'column', gap: 12 } },
+    h('div', { style: { border: '1px solid var(--line)', borderRadius: 12, overflow: 'hidden' } }, h(D.Banner, { tone: 'paused', title: 'Labour inspection mode is on.', action: { label: 'End inspection mode' } }, 'Daydor has paused every change to employee records and payroll. Reading and reports continue.')),
+    h('div', { style: { border: '1px solid var(--line)', borderRadius: 12, overflow: 'hidden' } }, h(D.Banner, { tone: 'danger', title: 'ESI registration is overdue.', action: { label: 'Open decision' } }, 'You crossed 10 people on 22 Sep; registration was due within 15 days.')),
+    h('div', { style: { border: '1px solid var(--line)', borderRadius: 12, overflow: 'hidden' } }, h(D.Banner, { tone: 'info', title: 'Labour Codes transition.' }, 'Karnataka\u2019s state rules aren\u2019t final, so I\u2019m checking both the old Acts and the new Codes on every run.'))));
+</script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../bundle.css">
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+<meta charset="utf-8"><title>DecisionCard — preview</title></head>
+<body>
+<div id="root"></div>
+<script>
+  var D = window.Daydor, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { className: 'dd-stack', style: { maxWidth: 600 } },
+    h(D.DecisionCard, {
+      domain: 'Compliance', gate: 'Statutory filing', writeClass: 'irreversible',
+      title: 'File the October PF return',
+      summary: 'ECR for 14 members is ready. Once filed with EPFO it can\u2019t be withdrawn — only corrected with a revised return.',
+      figures: [{ label: 'Employer + employee PF', value: 50400 }, { label: 'Members', value: '14', note: 'No new UANs this month' }],
+      why: 'EPF Scheme 1952: contributions due by 15 Nov. A human signs off every filing.',
+      deadline: { daysLeft: 2, date: '15 Nov' },
+      approveLabel: 'Approve & file', reviewLabel: 'See the return'
+    }),
+    h(D.DecisionCard, { state: 'approved', title: 'Disburse September salaries', resolvedNote: 'Approved by you · 30 Sep, 6:12 pm' }),
+    h(D.DecisionCard, { state: 'delegated', title: 'Update bank details for Sneha Kulkarni', resolvedNote: 'Delegated to Rohit · yesterday' })));
+</script>
+</body>
+</html>

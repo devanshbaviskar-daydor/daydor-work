@@ -1,0 +1,188 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "target_start_date": {
+      "type": "string"
+    },
+    "position_id": {
+      "type": "string"
+    },
+    "hiring_manager_id": {
+      "type": "string"
+    },
+    "hiring_manager_name": {
+      "type": "string"
+    },
+    "job_title": {
+      "type": "string"
+    },
+    "department_name": {
+      "type": "string"
+    },
+    "stage": {
+      "$ref": "#/definitions/RequisitionStage"
+    },
+    "approval": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/RequisitionApproval"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "posting": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/RequisitionPosting"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "candidate_count": {
+      "type": "number"
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "appointment_letter": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "not_applicable",
+            "pending",
+            "generated",
+            "sent",
+            "acknowledged"
+          ]
+        }
+      },
+      "required": [
+        "status"
+      ],
+      "additionalProperties": false,
+      "description": "Daydor addition: India's Industrial Relations Code / OSH Central Rules 2026 require an appointment letter; no Daydor-Build equivalent exists."
+    },
+    "threshold_heads_up": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ThresholdHeadsUp"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Daydor addition: requisition_opener's read-only heads-up when filling this seat would cross a statutory headcount threshold (Domain 1)."
+    }
+  },
+  "required": [
+    "id",
+    "status",
+    "target_start_date",
+    "position_id",
+    "hiring_manager_id",
+    "hiring_manager_name",
+    "job_title",
+    "department_name",
+    "stage",
+    "approval",
+    "posting",
+    "candidate_count",
+    "created_at",
+    "appointment_letter",
+    "threshold_heads_up"
+  ],
+  "additionalProperties": false,
+  "definitions": {
+    "RequisitionStage": {
+      "type": "string",
+      "enum": [
+        "drafting",
+        "awaiting_budget_approval",
+        "budget_rejected",
+        "approved",
+        "posted"
+      ]
+    },
+    "RequisitionApproval": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "gate_type": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "status",
+        "gate_type"
+      ],
+      "additionalProperties": false
+    },
+    "RequisitionPosting": {
+      "type": "object",
+      "properties": {
+        "channel": {
+          "type": "string"
+        },
+        "pay_range_min": {
+          "type": "number"
+        },
+        "pay_range_max": {
+          "type": "number"
+        },
+        "pay_transparency_checked": {
+          "type": "boolean"
+        },
+        "posted_at": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "channel",
+        "pay_range_min",
+        "pay_range_max",
+        "pay_transparency_checked",
+        "posted_at"
+      ],
+      "additionalProperties": false
+    },
+    "ThresholdHeadsUp": {
+      "type": "object",
+      "properties": {
+        "scheme": {
+          "type": "string"
+        },
+        "headcount_at_check": {
+          "type": "number"
+        },
+        "threshold": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "scheme",
+        "headcount_at_check",
+        "threshold"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

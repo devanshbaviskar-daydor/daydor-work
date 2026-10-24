@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../bundle.css">
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+<meta charset="utf-8"><title>Stepper — preview</title></head>
+<body>
+<div id="root"></div>
+<script>
+  var D = window.Daydor, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { className: 'dd-stack', style: { gap: 32 } },
+    h(D.Stepper, { steps: [
+      { label: 'Attendance closed', state: 'done', meta: '13 Oct, 9:02 am' },
+      { label: 'Pay computed', state: 'done', meta: '9:04 am' },
+      { label: 'Variance check', state: 'done', meta: '2 people flagged' },
+      { label: 'Your approval', state: 'current', meta: 'Due in 5 days', writeClass: 'irreversible' },
+      { label: 'Salaries released', state: 'upcoming', meta: '31 Oct' },
+      { label: 'Payslips sent', state: 'upcoming' }
+    ] }),
+    h('div', { style: { maxWidth: 420 } }, h(D.Stepper, { orientation: 'vertical', steps: [
+      { label: 'Offer signed', state: 'done', meta: '28 Oct' },
+      { label: 'Documents collected', state: 'blocked', meta: 'Bank proof unreadable — asked Kavya to re-upload' },
+      { label: 'Laptop and email', state: 'waiting', meta: 'IT · waiting on vendor' },
+      { label: 'First day', state: 'upcoming', meta: '3 Nov' }
+    ] }))));
+</script>
+</body>
+</html>

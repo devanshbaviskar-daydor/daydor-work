@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../bundle.css">
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+
+<meta charset="utf-8">
+<title>Hiring — preview</title>
+<style>
+  .shell { display: grid; grid-template-columns: 232px 1fr; height: 900px; background: var(--canvas); }
+  .page { overflow: hidden; padding: var(--space-8) var(--space-12); }
+  .page-inner { max-width: 1080px; margin: 0 auto; display: flex; flex-direction: column; gap: var(--space-6); }
+  .panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); }
+  .panel-pad { padding: var(--space-5) var(--space-6); }
+  .panel-title { margin: 0 0 var(--space-4); font-size: 15px; line-height: 22px; font-weight: 600; }
+  .grid2 { display: grid; grid-template-columns: 1.3fr 1fr; gap: var(--space-6); align-items: start; }
+  .col { display: flex; flex-direction: column; gap: var(--space-3); min-width: 0; }
+  .sec-label { font-size: 12px; font-weight: 500; color: var(--ink-muted); margin: 0 0 var(--space-1); }
+  .muted { font-size: 12px; line-height: 17px; color: var(--ink-muted); margin: 0; }
+
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  var D = window.Daydor, h = React.createElement;
+  function receiptPhoto(lines, rotate) {
+    return h('div', { 'data-theme': 'light', style: { width: '74%', transform: 'rotate(' + (rotate || -2) + 'deg)', background: 'var(--surface)', color: 'var(--ink)', padding: '14px 12px 18px', fontFamily: 'var(--font-mono)', fontSize: 9.5, lineHeight: '13px', boxShadow: 'var(--shadow-lg)' } },
+      lines.map(function (l, i) { return h('div', { key: i, style: { display: 'flex', justifyContent: l[1] != null ? 'space-between' : 'center', fontWeight: l[2] ? 600 : 400, marginTop: l[3] ? 6 : 0 } }, h('span', null, l[0]), l[1] != null ? h('span', null, l[1]) : null); }));
+  }
+  var BLUE_TOKAI = [['BLUE TOKAI COFFEE ROASTERS', null, true], ['100 Ft Rd, Indiranagar'], ['GSTIN 29AAJCB12?4F1Z5'], ['14/10/2026  13:42', null, false, true], ['Cappuccino x2', '480.00', false, true], ['Cold brew x2', '520.00'], ['Croissant x1', '124.00'], ['CGST 2.5%', '28.10'], ['SGST 2.5%', '27.90'], ['TOTAL', '1,180.00', true, true], ['UPI · paid'], ['Thank you!', null, false, true]];
+  var TOIT = [['TOIT BREWPUB', null, true], ['Indiranagar, Bengaluru'], ['GSTIN 29AAFCT8812K1Z2'], ['09/10/2026  21:58', null, false, true], ['Food', '5,240.00', false, true], ['Beverages', '2,240.00'], ['CGST 2.5%', '187.00'], ['SGST 2.5%', '187.00'], ['Service chg', '6.00'], ['TOTAL', '7,860.00', true, true], ['Card ···· 2201']];
+
+  var nav = [
+    { key: 'home', label: 'Home', icon: 'home', count: 3, countTone: 'warning' },
+    { key: 'people', label: 'People', icon: 'users', count: 14 },
+    { key: 'hiring', label: 'Hiring', icon: 'briefcase', count: 2 },
+    { key: 'leave', label: 'Leave & attendance', icon: 'calendar' },
+    { key: 'payroll', label: 'Payroll', icon: 'rupee' },
+    { key: 'expenses', label: 'Expenses', icon: 'receipt' },
+    { key: 'compliance', label: 'Compliance', icon: 'landmark' },
+    { key: 'docs', label: 'Documents', icon: 'folder' }
+  ].map(function (n) { return Object.assign(n, { active: n.key === 'hiring' }); });
+  var footerItems = [{ key: 'settings', label: 'Settings', icon: 'settings', active: 'hiring' === 'settings' }];
+  var sidebar = h(D.Sidebar, { workspace: 'Acme Labs', user: { name: 'Abhijeet Singh', role: 'Founder' }, items: nav, footerItems: footerItems });
+
+  var items = [
+    { stage: 'applied', name: 'Meera Pillai', meta: 'Applied 2d ago · Naukri', blocker: { kind: 'agent', text: 'Daydor is screening' } },
+    { stage: 'applied', name: 'Aakash Gupta', meta: 'Applied today · LinkedIn', blocker: { kind: 'agent', text: 'Daydor is screening' } },
+    { stage: 'screening', name: 'Ishaan Kapoor', meta: 'Instahyre', signal: 'shortlist', signalNote: '4 yrs Go, Postgres', blocker: { kind: 'you', text: 'Needs you: shortlist?' } },
+    { stage: 'screening', name: 'Fatima Shaikh', meta: 'Referral · Rohit', signal: 'hold', signalNote: '90-day notice' },
+    { stage: 'interview', name: 'Neha Joshi', meta: 'Round 2 · Thu 15 Oct, 4 pm' },
+    { stage: 'interview', name: 'Varun Menon', meta: 'Round 1 done', blocker: { kind: 'you', text: 'Needs your feedback' } },
+    { stage: 'offer', name: 'Rohan Iyer', meta: '₹26 L proposed', selected: true, blocker: { kind: 'you', text: 'Above band — needs you' } },
+    { stage: 'check', name: 'Kavya Nair', meta: 'Offer accepted', signal: 'awaiting-consent', blocker: { kind: 'external', text: 'Waiting on Kavya to consent · sent 2 days ago' } },
+    { stage: 'hired', name: 'Prithvi Rao', meta: 'Joins 3 Nov', blocker: { kind: 'done', text: 'Handed to Onboarding' } }
+  ];
+  var content = [
+    h(D.PageHeader, { key: 'h', eyebrow: ['Hiring'], title: 'Backend engineer', description: '2 budgeted seats, 1 filled · band ₹18–24 L · posted on LinkedIn, Naukri and Instahyre',
+      actions: [h(D.Button, { key: 'v' }, 'View posting'), h(D.Button, { key: 'o', variant: 'primary' }, 'Open a role')],
+      tabs: [{ label: 'Backend engineer', count: 9, active: true }, { label: 'Product designer', count: 4 }, { label: 'Closed roles' }] }),
+    h(D.DecisionCard, { key: 'd', domain: 'Hiring', gate: 'Offer outside band', writeClass: 'guarded', title: 'Approve an offer above band for Rohan Iyer',
+      figures: [{ label: 'Proposed CTC', value: 2600000, note: 'band ₹18–24 L' }, { label: 'Above band', value: 200000, note: '8% over the top' }, { label: 'Seat budget left', value: 2400000 }],
+      why: 'Budget policy: any offer outside the approved band needs a founder\u2019s sign-off.', approveLabel: 'Approve ₹26 L offer', reviewLabel: 'Counter at ₹24 L',
+      deadline: { daysLeft: 3, date: 'his other offer expires 16 Oct' } }),
+    h(D.StageBoard, { key: 'b', items: items, stages: [{ key: 'applied', label: 'Applied', count: 12 }, { key: 'screening', label: 'Screening' }, { key: 'interview', label: 'Interview' }, { key: 'offer', label: 'Offer' }, { key: 'check', label: 'Background check' }, { key: 'hired', label: 'Hired' }] })
+  ];
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { className: 'shell' }, sidebar, h('main', { className: 'page' }, h('div', { className: 'page-inner' }, content))));
+</script>
+</body>
+</html>

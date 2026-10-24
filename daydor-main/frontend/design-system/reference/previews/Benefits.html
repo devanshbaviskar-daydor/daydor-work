@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../bundle.css">
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+
+<meta charset="utf-8">
+<title>Benefits — preview</title>
+<style>
+  .shell { display: grid; grid-template-columns: 232px 1fr; height: 940px; background: var(--canvas); }
+  .page { overflow: hidden; padding: var(--space-8) var(--space-12); }
+  .page-inner { max-width: 1080px; margin: 0 auto; display: flex; flex-direction: column; gap: var(--space-6); }
+  .panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); }
+  .panel-pad { padding: var(--space-5) var(--space-6); }
+  .panel-title { margin: 0 0 var(--space-4); font-size: 15px; line-height: 22px; font-weight: 600; }
+  .grid2 { display: grid; grid-template-columns: 1.3fr 1fr; gap: var(--space-6); align-items: start; }
+  .col { display: flex; flex-direction: column; gap: var(--space-3); min-width: 0; }
+  .sec-label { font-size: 12px; font-weight: 500; color: var(--ink-muted); margin: 0 0 var(--space-1); }
+  .muted { font-size: 12px; line-height: 17px; color: var(--ink-muted); margin: 0; }
+
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  var D = window.Daydor, h = React.createElement;
+  function receiptPhoto(lines, rotate) {
+    return h('div', { 'data-theme': 'light', style: { width: '74%', transform: 'rotate(' + (rotate || -2) + 'deg)', background: 'var(--surface)', color: 'var(--ink)', padding: '14px 12px 18px', fontFamily: 'var(--font-mono)', fontSize: 9.5, lineHeight: '13px', boxShadow: 'var(--shadow-lg)' } },
+      lines.map(function (l, i) { return h('div', { key: i, style: { display: 'flex', justifyContent: l[1] != null ? 'space-between' : 'center', fontWeight: l[2] ? 600 : 400, marginTop: l[3] ? 6 : 0 } }, h('span', null, l[0]), l[1] != null ? h('span', null, l[1]) : null); }));
+  }
+  var BLUE_TOKAI = [['BLUE TOKAI COFFEE ROASTERS', null, true], ['100 Ft Rd, Indiranagar'], ['GSTIN 29AAJCB12?4F1Z5'], ['14/10/2026  13:42', null, false, true], ['Cappuccino x2', '480.00', false, true], ['Cold brew x2', '520.00'], ['Croissant x1', '124.00'], ['CGST 2.5%', '28.10'], ['SGST 2.5%', '27.90'], ['TOTAL', '1,180.00', true, true], ['UPI · paid'], ['Thank you!', null, false, true]];
+  var TOIT = [['TOIT BREWPUB', null, true], ['Indiranagar, Bengaluru'], ['GSTIN 29AAFCT8812K1Z2'], ['09/10/2026  21:58', null, false, true], ['Food', '5,240.00', false, true], ['Beverages', '2,240.00'], ['CGST 2.5%', '187.00'], ['SGST 2.5%', '187.00'], ['Service chg', '6.00'], ['TOTAL', '7,860.00', true, true], ['Card ···· 2201']];
+
+  var nav = [
+    { key: 'home', label: 'Home', icon: 'home', count: 3, countTone: 'warning' },
+    { key: 'people', label: 'People', icon: 'users', count: 14 },
+    { key: 'hiring', label: 'Hiring', icon: 'briefcase', count: 2 },
+    { key: 'leave', label: 'Leave & attendance', icon: 'calendar' },
+    { key: 'payroll', label: 'Payroll', icon: 'rupee' },
+    { key: 'expenses', label: 'Expenses', icon: 'receipt' },
+    { key: 'compliance', label: 'Compliance', icon: 'landmark' },
+    { key: 'docs', label: 'Documents', icon: 'folder' }
+  ].map(function (n) { return Object.assign(n, { active: n.key === 'settings' }); });
+  var footerItems = [{ key: 'settings', label: 'Settings', icon: 'settings', active: 'settings' === 'settings' }];
+  var sidebar = h(D.Sidebar, { workspace: 'Acme Labs', user: { name: 'Abhijeet Singh', role: 'Founder' }, items: nav, footerItems: footerItems });
+
+  var S = function (label, options, value, hint) { return h(D.Select, { label: label, options: options, defaultValue: value, hint: hint }); };
+  var content = [
+    h(D.PageHeader, { key: 'h', eyebrow: ['Settings', 'Benefits'], title: 'Group benefits', description: 'Choose what Acme Labs offers. Daydor gets quotes from your broker, enrols everyone and keeps payroll deductions in sync. You\u2019ll usually only touch this at renewal.' }),
+    h('div', { key: 'g', style: { display: 'grid', gridTemplateColumns: '1fr 320px', gap: 24, alignItems: 'start' } },
+      h('div', { className: 'col', style: { gap: 12 } },
+        h(D.ChoiceCard, { selected: true, icon: 'heart', title: 'Group health (GMC)', description: 'Hospitalisation cover for employees and their families.', meta: 'est. ₹1,84,000 / yr' },
+          S('Sum insured', ['₹3,00,000', '₹5,00,000', '₹10,00,000'], '₹5,00,000'),
+          S('Who\u2019s covered', ['Employee only', 'Employee, spouse, 2 children', 'Also parents (employee pays)'], 'Employee, spouse, 2 children'),
+          S('Cost split', ['Company pays 100%', 'Company 80% · employee 20%'], 'Company pays 100%'),
+          S('Voluntary top-up', ['Offer ₹5 L top-up (employee pays)', 'Don\u2019t offer'], 'Offer ₹5 L top-up (employee pays)', 'Deducted from pay for those who opt in')),
+        h(D.ChoiceCard, { selected: true, icon: 'shield', title: 'Group accident (GPA)', description: 'Accidental death and disability, 24×7.', meta: 'est. ₹21,000 / yr' },
+          S('Cover', ['3× annual CTC', '₹10,00,000 flat'], '3× annual CTC'), S('Cost split', ['Company pays 100%'], 'Company pays 100%')),
+        h(D.ChoiceCard, { selected: false, icon: 'user', title: 'Group term life (GTL)', description: 'Life cover paid to the nominee.', meta: 'Not offered' })),
+      h('div', { className: 'panel panel-pad' },
+        h('h2', { className: 'panel-title' }, 'What this costs'),
+        h(D.FactList, { items: [{ label: 'Per year', value: 205000 }, { label: 'Per person per month', value: 1220 }, { label: 'People covered', value: '14 + families' }, { label: 'Renews', value: '1 Apr 2027' }] }),
+        h('div', { style: { marginTop: 20, display: 'flex', flexDirection: 'column', gap: 10 } },
+          h(D.Button, { variant: 'primary', fullWidth: true }, 'Get quotes from our broker'),
+          h('p', { className: 'muted' }, 'Nothing is bought until you accept a quote. If this sits unfinished, Daydor reminds you in a week — it never hands this decision to anyone else.'))))
+  ];
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { className: 'shell' }, sidebar, h('main', { className: 'page' }, h('div', { className: 'page-inner' }, content))));
+</script>
+</body>
+</html>

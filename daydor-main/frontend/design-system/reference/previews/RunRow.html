@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../bundle.css">
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+<meta charset="utf-8"><title>RunRow — preview</title></head>
+<body>
+<div id="root"></div>
+<script>
+  var D = window.Daydor, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { className: 'dd-stack', style: { maxWidth: 340, gap: 0 } },
+    h(D.RunRow, { state: 'running', title: 'Computing October payroll', domain: 'Payroll', meta: 'step 3 of 5', progress: 60 }),
+    h(D.RunRow, { state: 'running', title: 'Preparing offer letter for Kavya', domain: 'Hiring', meta: 'started 2 min ago' }),
+    h(D.RunRow, { state: 'waiting', title: 'Waiting on Rohit\u2019s bank proof', domain: 'Core HR', meta: 'since yesterday' }),
+    h(D.RunRow, { state: 'done', title: 'Sent 14 payslips', domain: 'Payroll', meta: '8:30 am' }),
+    h(D.RunRow, { state: 'failed', title: 'PT challan — portal didn\u2019t respond', domain: 'Compliance', meta: 'retrying at 11 am' })));
+</script>
+</body>
+</html>

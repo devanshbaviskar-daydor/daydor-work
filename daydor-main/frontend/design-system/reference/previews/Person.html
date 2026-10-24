@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../bundle.css">
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+
+<meta charset="utf-8">
+<title>Person — preview</title>
+<style>
+  .shell { display: grid; grid-template-columns: 232px 1fr; height: 860px; background: var(--canvas); }
+  .page { overflow: hidden; padding: var(--space-8) var(--space-12); }
+  .page-inner { max-width: 1040px; margin: 0 auto; display: flex; flex-direction: column; gap: var(--space-6); }
+  .panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); }
+  .panel-pad { padding: var(--space-5) var(--space-6); }
+  .panel-title { margin: 0 0 var(--space-4); font-size: 15px; line-height: 22px; font-weight: 600; }
+  .grid2 { display: grid; grid-template-columns: 1.4fr 1fr; gap: var(--space-6); align-items: start; }
+  .sec-label { font-size: 12px; font-weight: 500; color: var(--ink-muted); margin: 0 0 var(--space-2); }
+
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  var D = window.Daydor, h = React.createElement;
+  var nav = [
+    { key: 'home', label: 'Home', icon: 'home', count: 3, countTone: 'warning' },
+    { key: 'people', label: 'People', icon: 'users', count: 14 },
+    { key: 'hiring', label: 'Hiring', icon: 'briefcase', count: 2 },
+    { key: 'leave', label: 'Leave & attendance', icon: 'calendar' },
+    { key: 'payroll', label: 'Payroll', icon: 'rupee' },
+    { key: 'expenses', label: 'Expenses', icon: 'receipt' },
+    { key: 'compliance', label: 'Compliance', icon: 'landmark' },
+    { key: 'docs', label: 'Documents', icon: 'folder' }
+  ].map(function (n) { return Object.assign(n, { active: n.key === 'people' }); });
+  var sidebar = h(D.Sidebar, { workspace: 'Acme Labs', user: { name: 'Abhijeet Singh', role: 'Founder' }, items: nav });
+
+  var content = [
+    h(D.PageHeader, { key: 'h', person: 'Priya Raghavan', eyebrow: ['People'], title: 'Priya Raghavan', description: 'Product designer · since 14 Mar 2024 · Bengaluru',
+      actions: [h(D.Button, { key: 'a' }, 'Ask about Priya')],
+      tabs: [{ label: 'Overview', active: true }, { label: 'Pay' }, { label: 'Leave', count: 2 }, { label: 'Documents', count: 6 }, { label: 'Activity' }] }),
+    h('div', { key: 'g', className: 'grid2' },
+      h('div', { style: { display: 'flex', flexDirection: 'column', gap: 24 } },
+        h('div', { className: 'panel panel-pad' }, h(D.StatRow, { items: [
+          { label: 'Net pay, October', value: 108450, delta: '+₹14,300 after revision', deltaTone: 'warning' },
+          { label: 'Leave balance', value: '9.5 days', delta: 'casual 4 · earned 5.5' },
+          { label: 'Attendance, October', value: '100%' }] })),
+        h('div', { className: 'panel panel-pad' },
+          h('h2', { className: 'panel-title' }, 'Details'),
+          h(D.FactList, { columns: 2, items: [
+            { label: 'Employee ID', value: 'ACM-0007', mono: true }, { label: 'Manager', value: 'Abhijeet Singh' },
+            { label: 'Monthly CTC', value: 125000 }, { label: 'Tax regime', value: 'New' },
+            { label: 'UAN', value: '1012 3456 7890', mono: true, locked: true }, { label: 'PAN', value: 'ABCPR····F', mono: true, locked: true },
+            { label: 'Bank', value: 'HDFC ···· 4821', locked: true }, { label: 'Work location', value: 'Bengaluru (KA)' }] }))),
+      h('div', { className: 'panel panel-pad' },
+        h('h2', { className: 'panel-title' }, 'What happened on Priya\u2019s record'),
+        h(D.Timeline, { items: [
+          { text: 'Applied CTC revision to ₹1,25,000 / month', domain: 'Payroll', time: '1 Oct', writeClass: 'guarded' },
+          { text: 'Sent September payslip', domain: 'Payroll', time: '30 Sep' },
+          { by: 'person', name: 'Abhijeet Singh', text: 'Approved the revision', time: '28 Sep' },
+          { text: 'Approved 2 days of casual leave within policy', domain: 'Leave', time: '22 Sep', writeClass: 'guarded' },
+          { text: 'Updated bank account after Priya confirmed it', domain: 'Core HR', time: '4 Sep', writeClass: 'irreversible' },
+          { by: 'person', name: 'Abhijeet Singh', text: 'Approved the bank change', time: '4 Sep' }
+        ] })))
+  ];
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { className: 'shell' }, sidebar, h('main', { className: 'page' }, h('div', { className: 'page-inner' }, content))));
+</script>
+</body>
+</html>

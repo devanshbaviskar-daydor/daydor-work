@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../bundle.css">
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+
+<meta charset="utf-8">
+<title>Notifications — preview</title>
+<style>
+  .stage { display: grid; grid-template-columns: 380px 1fr; gap: 40px; padding: 32px 40px; background: var(--canvas); align-items: start; }
+  .label { font-size: 12px; font-weight: 500; color: var(--ink-muted); margin: 0 0 10px; }
+  .chat { border: 1px solid var(--line); border-radius: 24px; background: var(--surface-sunken); padding: 16px 14px; display: flex; flex-direction: column; gap: 10px; height: 660px; box-sizing: border-box; overflow: hidden; }
+  .chat-head { display: flex; align-items: center; gap: 10px; padding: 0 4px 10px; border-bottom: 1px solid var(--line); margin-bottom: 4px; }
+  .chat-head b { font-size: 14px; font-weight: 600; display: block; }
+  .chat-head span { font-size: 12px; color: var(--ink-muted); }
+  .day { align-self: center; font-size: 11px; color: var(--ink-muted); background: var(--surface); padding: 2px 10px; border-radius: var(--radius-full); }
+  .bubble { max-width: 300px; background: var(--surface); border: 1px solid var(--line); border-radius: 4px 14px 14px 14px; padding: 10px 12px 8px; font-size: 14px; line-height: 20px; }
+  .bubble p { margin: 0; }
+  .bubble p + p { margin-top: 6px; }
+  .bubble .t { display: block; text-align: right; font-size: 11px; color: var(--ink-muted); margin-top: 4px; }
+  .qr { display: flex; flex-direction: column; gap: 1px; margin-top: 8px; border-top: 1px solid var(--line); }
+  .qr span { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 8px 0 2px; color: var(--link); font-weight: 500; font-size: 14px; }
+  .qr span + span { border-top: 1px solid var(--line); }
+  .mail { border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--surface); overflow: hidden; box-shadow: var(--shadow-sm); }
+  .mail-meta { padding: 14px 20px; border-bottom: 1px solid var(--line); font-size: 13px; line-height: 20px; }
+  .mail-meta div span { color: var(--ink-muted); display: inline-block; width: 64px; }
+  .mail-meta .subj { font-size: 16px; font-weight: 600; margin-top: 4px; }
+  .mail-body { padding: 28px 40px 32px; max-width: 560px; }
+  .mail-body .wm { font-weight: 600; font-size: 16px; letter-spacing: -0.03em; color: var(--brand); }
+  .mail-body h1 { margin: 20px 0 6px; font-size: 20px; line-height: 28px; font-weight: 500; letter-spacing: -0.015em; }
+  .mail-body p { margin: 0; font-size: 14px; line-height: 22px; color: var(--ink-muted); }
+  .mail-card { margin: 20px 0; padding: 16px 18px; border: 1px solid var(--line); border-radius: var(--radius-lg); display: flex; flex-direction: column; gap: 12px; }
+  .mail-foot { margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 12px !important; line-height: 18px !important; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  var D = window.Daydor, h = React.createElement;
+  var chat = h('div', null,
+    h('p', { className: 'label' }, 'Messaging (WhatsApp Business templates)'),
+    h('div', { className: 'chat' },
+      h('div', { className: 'chat-head' }, h(D.Avatar, { size: 32 }), h('div', null, h('b', null, 'Daydor · Acme Labs'), h('span', null, 'Verified business account'))),
+      h('span', { className: 'day' }, 'Today'),
+      h('div', { className: 'bubble' },
+        h('p', null, 'Good morning, Abhijeet. Overnight I closed 23 tasks. ', h('b', null, '3 need you'), ' — the PF return is due in 2 days.'),
+        h('div', { className: 'qr' }, h('span', null, 'Open Daydor')),
+        h('span', { className: 't' }, '9:00 am')),
+      h('div', { className: 'bubble' },
+        h('p', null, h('b', null, 'Leave request'), ' — Arjun asked for 20–21 Oct (casual). It’s within policy; Rahul is also out on the 21st.'),
+        h('div', { className: 'qr' }, h('span', null, 'Approve'), h('span', null, 'Decline'), h('span', null, 'Open in Daydor')),
+        h('span', { className: 't' }, '11:12 am')),
+      h('div', { className: 'bubble' },
+        h('p', null, h('b', null, 'Needs you: October PF return'), ' — ₹50,400 for 14 members, due 15 Nov.'),
+        h('p', null, 'Filing can’t be undone, so please approve it in the app.'),
+        h('div', { className: 'qr' }, h('span', null, h(D.Icon, { name: 'lock', size: 14 }), 'Review in Daydor')),
+        h('span', { className: 't' }, '11:30 am'))));
+
+  var mail = h('div', null,
+    h('p', { className: 'label' }, 'Email'),
+    h('div', { className: 'mail' },
+      h('div', { className: 'mail-meta' },
+        h('div', null, h('span', null, 'From'), 'Daydor for Acme Labs'),
+        h('div', null, h('span', null, 'To'), 'Abhijeet Singh'),
+        h('div', { className: 'subj' }, 'Needs you: file the October PF return (due 15 Nov)')),
+      h('div', { className: 'mail-body' },
+        h('span', { className: 'wm' }, 'daydor'),
+        h('h1', null, 'The October PF return is ready for you'),
+        h('p', null, 'I’ve prepared the ECR for 14 members. Once EPFO accepts it, it can’t be withdrawn, so it needs your approval.'),
+        h('div', { className: 'mail-card' },
+          h(D.StatRow, { items: [{ label: 'PF (employer + employee)', value: 50400 }, { label: 'Members', value: '14' }] }),
+          h('div', { style: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 } },
+            h(D.Button, { variant: 'primary', icon: 'lock' }, 'Review in Daydor'),
+            h(D.Deadline, { daysLeft: 2, date: '15 Nov' }))),
+        h('p', null, 'Can’t get to it? Open it and choose Delegate to hand it to someone else.'),
+        h('p', { className: 'mail-foot' }, 'You get this because you approve compliance filings for Acme Labs. Change what Daydor sends you in Settings → Notifications.'))));
+
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { className: 'stage' }, chat, mail));
+</script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<link rel="stylesheet" href="../bundle.css">
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+
+<meta charset="utf-8">
+<title>Onboarding — preview</title>
+<style>
+  .shell { display: grid; grid-template-columns: 232px 1fr; height: 860px; background: var(--canvas); }
+  .page { overflow: hidden; padding: var(--space-8) var(--space-12); }
+  .page-inner { max-width: 1040px; margin: 0 auto; display: flex; flex-direction: column; gap: var(--space-6); }
+  .panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); }
+  .panel-pad { padding: var(--space-5) var(--space-6); }
+  .panel-title { margin: 0 0 var(--space-4); font-size: 15px; line-height: 22px; font-weight: 600; }
+  .grid2 { display: grid; grid-template-columns: 1.4fr 1fr; gap: var(--space-6); align-items: start; }
+  .sec-label { font-size: 12px; font-weight: 500; color: var(--ink-muted); margin: 0 0 var(--space-2); }
+
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+  var D = window.Daydor, h = React.createElement;
+  var nav = [
+    { key: 'home', label: 'Home', icon: 'home', count: 3, countTone: 'warning' },
+    { key: 'people', label: 'People', icon: 'users', count: 14 },
+    { key: 'hiring', label: 'Hiring', icon: 'briefcase', count: 2 },
+    { key: 'leave', label: 'Leave & attendance', icon: 'calendar' },
+    { key: 'payroll', label: 'Payroll', icon: 'rupee' },
+    { key: 'expenses', label: 'Expenses', icon: 'receipt' },
+    { key: 'compliance', label: 'Compliance', icon: 'landmark' },
+    { key: 'docs', label: 'Documents', icon: 'folder' }
+  ].map(function (n) { return Object.assign(n, { active: n.key === 'people' }); });
+  var sidebar = h(D.Sidebar, { workspace: 'Acme Labs', user: { name: 'Abhijeet Singh', role: 'Founder' }, items: nav });
+
+  var content = [
+    h(D.PageHeader, { key: 'h', person: 'Kavya Nair', eyebrow: ['People', 'Onboarding'], title: 'Kavya Nair', status: 'running', description: 'Backend engineer · joins Mon, 3 Nov · reports to Abhijeet',
+      actions: [h(D.Button, { key: 'm' }, 'Message Kavya')] }),
+    h('div', { key: 'g', className: 'grid2' },
+      h('div', { className: 'panel panel-pad' },
+        h('h2', { className: 'panel-title' }, 'Getting Kavya ready'),
+        h(D.Stepper, { orientation: 'vertical', steps: [
+          { label: 'Offer signed', state: 'done', meta: 'Talent · 28 Oct' },
+          { label: 'Documents collected', state: 'blocked', meta: 'Core HR · bank proof is unreadable — asked Kavya to re-upload',
+            children: h('div', { style: { display: 'flex', gap: 6, flexWrap: 'wrap' } }, h(D.SourceChip, { kind: 'doc', label: 'PAN ✓' }), h(D.SourceChip, { kind: 'doc', label: 'Aadhaar ✓' }), h(D.SourceChip, { kind: 'doc', label: 'Cancelled cheque — unreadable' })) },
+          { label: 'Bank details verified', state: 'upcoming', meta: 'Core HR · needs your approval once collected', writeClass: 'irreversible' },
+          { label: 'UAN linked for PF', state: 'waiting', meta: 'Compliance · waiting on previous employer\u2019s exit date' },
+          { label: 'Laptop and email', state: 'current', meta: 'IT · laptop ships 30 Oct' },
+          { label: 'Welcome email and day-one plan', state: 'upcoming', meta: 'Onboarding · sends 31 Oct' },
+          { label: 'First payroll', state: 'upcoming', meta: 'Payroll · prorated in November' }
+        ] })),
+      h('div', { style: { display: 'flex', flexDirection: 'column', gap: 16 } },
+        h(D.Callout, { tone: 'warning', eyebrow: ['Core HR'], title: 'Bank proof needs a clearer photo', actions: [h(D.Button, { key: 'n', size: 'sm' }, 'Nudge Kavya'), h(D.Button, { key: 'u', size: 'sm', variant: 'ghost' }, 'Upload on her behalf')] },
+          h('p', null, 'I asked Kavya yesterday. Without it, her first salary can\u2019t be set up — still 5 days of margin.')),
+        h('div', { className: 'panel panel-pad' },
+          h('h2', { className: 'panel-title' }, 'Offer'),
+          h(D.FactList, { items: [{ label: 'Monthly CTC', value: 72000 }, { label: 'Probation', value: '3 months' }, { label: 'Work location', value: 'Bengaluru (KA)' }, { label: 'Notice period', value: '30 days' }] }))))
+  ];
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { className: 'shell' }, sidebar, h('main', { className: 'page' }, h('div', { className: 'page-inner' }, content))));
+</script>
+</body>
+</html>
